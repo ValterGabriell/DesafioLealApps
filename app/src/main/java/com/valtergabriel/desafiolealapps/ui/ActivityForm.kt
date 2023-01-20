@@ -13,5 +13,7 @@ class ActivityForm : AppCompatActivity() {
         binding = ActivityFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
     }
 }
