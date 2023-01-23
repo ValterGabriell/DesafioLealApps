@@ -1,5 +1,6 @@
 package com.valtergabriel.desafiolealapps.ui
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,7 +13,7 @@ import com.valtergabriel.desafiolealapps.mock.MockTrain
 import com.valtergabriel.desafiolealapps.ui.adapter.FeedAdapter
 
 class FeedActivity : AppCompatActivity() {
-    private val TAG = "TAG"
+
     private lateinit var adapter: FeedAdapter
     private lateinit var binding: ActivityFeedBinding
 
@@ -27,6 +28,12 @@ class FeedActivity : AppCompatActivity() {
         adapter = FeedAdapter(list)
         binding.feedRecyclerView.adapter = adapter
         binding.feedRecyclerView.layoutManager = LinearLayoutManager(this)
+
+        binding.btnAddTraining.setOnClickListener {
+            Intent(this, CreateTrainingActivity::class.java).also {
+                startActivity(it)
+            }
+        }
 
     }
 }

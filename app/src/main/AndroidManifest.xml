@@ -13,28 +13,28 @@
         android:theme="@style/Theme.DesafioLealApps"
         tools:targetApi="31">
         <activity
-            android:name=".VizualizeExercise"
+            android:name=".ui.VizualizeExercise"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".CreateNewExerciseActivity"
+            android:name=".ui.CreateNewExerciseActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ExercisesListActivity"
+            android:name=".ui.ExercisesListActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".AddExerciseActivity"
+            android:name=".ui.CreateTrainingActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

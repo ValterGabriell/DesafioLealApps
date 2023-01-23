@@ -11,6 +11,7 @@ import com.valtergabriel.desafiolealapps.mock.MockTrain
 class FeedAdapter(private val trainList: List<MockTrain>) :
     RecyclerView.Adapter<FeedAdapter.MyViewHolder>() {
 
+
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(mockTrain: MockTrain) {
             itemView.findViewById<TextView>(R.id.txt_title_exercise).text = mockTrain.description
@@ -23,6 +24,8 @@ class FeedAdapter(private val trainList: List<MockTrain>) :
         return MyViewHolder(view)
     }
 
+
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(trainList[position])
     }
@@ -30,5 +33,6 @@ class FeedAdapter(private val trainList: List<MockTrain>) :
     var setOnClick : ((Int, Int) -> Unit)? = null
 
     override fun getItemCount(): Int = trainList.size
+
 
 }
