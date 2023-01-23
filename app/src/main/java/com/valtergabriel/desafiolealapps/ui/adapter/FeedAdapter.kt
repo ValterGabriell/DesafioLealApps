@@ -13,7 +13,7 @@ class FeedAdapter(private val trainList: List<MockTrain>) :
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(mockTrain: MockTrain) {
-            itemView.findViewById<TextView>(R.id.txt_title_recycler_view).text = mockTrain.description
+            itemView.findViewById<TextView>(R.id.txt_title_exercise).text = mockTrain.description
         }
     }
 

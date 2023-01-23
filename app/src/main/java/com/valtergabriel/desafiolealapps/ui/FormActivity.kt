@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.valtergabriel.desafiolealapps.databinding.ActivityFormBinding
 
-class ActivityForm : AppCompatActivity() {
+class FormActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFormBinding
 
