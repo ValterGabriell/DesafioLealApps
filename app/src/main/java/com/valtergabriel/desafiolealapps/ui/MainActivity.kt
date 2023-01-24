@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi
 import com.google.firebase.FirebaseApp
 import com.valtergabriel.desafiolealapps.databinding.ActivityMainBinding
 import com.valtergabriel.desafiolealapps.mock.MockTrain
+import com.valtergabriel.desafiolealapps.util.Firebase
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +18,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         FirebaseApp.initializeApp(this)
+
+
 
 
         binding.btnSignUp.setOnClickListener {

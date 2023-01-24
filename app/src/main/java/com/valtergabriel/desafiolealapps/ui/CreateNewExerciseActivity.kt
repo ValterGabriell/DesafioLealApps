@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.valtergabriel.desafiolealapps.R
 import com.valtergabriel.desafiolealapps.databinding.ActivityCreateNewExerciseBinding
 import com.valtergabriel.desafiolealapps.mock.MockExercise
-import com.valtergabriel.desafiolealapps.ui.adapter.ExerciseAdapter
+import com.valtergabriel.desafiolealapps.ui.adapter.ExerciseMockAdapter
 
 class CreateNewExerciseActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateNewExerciseBinding
-    private lateinit var adapter: ExerciseAdapter
+    private lateinit var adapter: ExerciseMockAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +26,7 @@ class CreateNewExerciseActivity : AppCompatActivity() {
 
 
         val list = MockExercise().getExercices()
-        adapter = ExerciseAdapter(list)
+        adapter = ExerciseMockAdapter(list)
         binding.recyclerAddExercise.adapter = adapter
         binding.recyclerAddExercise.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
