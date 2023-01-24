@@ -28,11 +28,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/txt_descricao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Adicionar"
+            android:text="Veja mais..."
             android:textColor="@color/blue"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"

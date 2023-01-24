@@ -3,4 +3,5 @@
     <string name="get_fit">Emagrecer</string>
     <string name="muscles">Bicepis</string>
     <string name="abdomen">Abdômen</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

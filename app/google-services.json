@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "64576248323",
+    "project_id": "desafiolealapps-60721",
+    "storage_bucket": "desafiolealapps-60721.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64576248323:android:a683f2ec50923395a1cc36",
+        "android_client_info": {
+          "package_name": "com.valtergabriel.desafiolealapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64576248323-ke37l57905f6g751i24f4tqioa73gpbi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.valtergabriel.desafiolealapps",
+            "certificate_hash": "ef3ba1304d0c141d7da766e1fa2698aa8d952a28"
+          }
+        },
+        {
+          "client_id": "64576248323-qmoq6v24s2d9fk06b3d8osmhsim05dfv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDkbKO0GXtUcHbaftcMUN6ZcKLbfc9RPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64576248323-qmoq6v24s2d9fk06b3d8osmhsim05dfv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

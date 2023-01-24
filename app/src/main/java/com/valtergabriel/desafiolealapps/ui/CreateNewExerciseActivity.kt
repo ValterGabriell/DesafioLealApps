@@ -1,5 +1,6 @@
 package com.valtergabriel.desafiolealapps.ui
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.TextView
@@ -31,7 +32,10 @@ class CreateNewExerciseActivity : AppCompatActivity() {
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
         adapter.setOnClick = { pos, name ->
-
+            Intent(this@CreateNewExerciseActivity, VizualizeExercise::class.java).also {
+                it.putExtra("exercise_name", name)
+                startActivity(it)
+            }
 
         }
     }
