@@ -7,19 +7,6 @@
     tools:context=".ui.CreateTrainingActivity">
 
     <TextView
-        android:id="@+id/textView12"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:text="Personalize seu treino"
-        android:textColor="@color/blue"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline21"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline16"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +17,20 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline21"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline16"
-        app:layout_constraintTop_toTopOf="@+id/guideline23" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Personalize seu treino"
+        android:textColor="@color/blue"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
+        app:layout_constraintEnd_toStartOf="@+id/guideline21"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline16"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline16"
@@ -40,26 +40,22 @@
         app:layout_constraintGuide_percent="0.1" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Nome"
-        app:boxCornerRadiusBottomEnd="16dp"
-        app:boxCornerRadiusBottomStart="16dp"
-        app:boxCornerRadiusTopEnd="16dp"
-        app:boxCornerRadiusTopStart="16dp"
+        android:hint="Define um nome para seu treino"
         app:counterEnabled="true"
-        app:counterMaxLength="15"
+        app:counterMaxLength="25"
         app:helperText="Preencha o nome do seu treino \n Ex. Treino das manhãs"
         app:layout_constraintBottom_toTopOf="@+id/guideline22"
         app:layout_constraintEnd_toStartOf="@+id/guideline21"
-        app:layout_constraintStart_toStartOf="@+id/guideline16"
-        app:layout_constraintTop_toBottomOf="@+id/textView12">
+        app:layout_constraintStart_toStartOf="@+id/guideline16">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nameTrainingEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="15"
+            android:maxLength="25"
             android:padding="16dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.8" />
+        app:layout_constraintGuide_percent="0.9" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline22"
@@ -78,18 +74,11 @@
         app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline23"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3" />
-
-    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline28"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.35" />
+        app:layout_constraintGuide_percent="0.3" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAddExercisesActivity"
@@ -109,17 +98,6 @@
         android:src="@android:drawable/ic_menu_add"
         app:layout_constraintBottom_toTopOf="@+id/guideline28"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline21"
-        app:layout_constraintTop_toTopOf="@+id/guideline23" />
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline23"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline22">
-
-    </HorizontalScrollView>
+        app:layout_constraintStart_toStartOf="@+id/guideline21" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

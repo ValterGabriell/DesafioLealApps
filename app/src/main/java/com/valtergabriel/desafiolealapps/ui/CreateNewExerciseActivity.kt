@@ -1,11 +1,8 @@
 package com.valtergabriel.desafiolealapps.ui
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.valtergabriel.desafiolealapps.R
 import com.valtergabriel.desafiolealapps.databinding.ActivityCreateNewExerciseBinding
@@ -25,15 +22,22 @@ class CreateNewExerciseActivity : AppCompatActivity() {
         binding = ActivityCreateNewExerciseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val list = MockExercise().getExercicesForBiceps()
+        val trainingName = intent.extras?.get("training_name").toString()
+
+
+        val list = MockExercise().getExercices()
         adapter = ExerciseAdapter(list)
         binding.recyclerAddExercise.adapter = adapter
         binding.recyclerAddExercise.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        adapter.setOnClick = { pos, name ->
+        adapter.setOnClick = { pos, name, id, type, description ->
             Intent(this@CreateNewExerciseActivity, VizualizeExercise::class.java).also {
                 it.putExtra("exercise_name", name)
+                it.putExtra("id", id)
+                it.putExtra("description", description)
+                it.putExtra("type", type)
+                it.putExtra("training_name", trainingName)
                 startActivity(it)
             }
 

@@ -31,11 +31,11 @@ class ExerciseAdapter(private val exerciseList: List<MockExercise>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(exerciseList[position])
         holder.itemView.findViewById<CardView>(R.id.card_view_all_exercise).setOnClickListener {
-            setOnClick?.invoke(position, exerciseList[position].name)
+            setOnClick?.invoke(position, exerciseList[position].name, exerciseList[position].id, exerciseList[position].type, exerciseList[position].descriptiom)
         }
     }
 
-    var setOnClick : ((Int, String) -> Unit)? = null
+    var setOnClick : ((Int, String, Long, String, String) -> Unit)? = null
 
     override fun getItemCount(): Int = exerciseList.size
 

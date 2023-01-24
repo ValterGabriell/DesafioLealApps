@@ -148,11 +148,10 @@
         app:layout_constraintGuide_percent="0.8" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white_less"
-        android:drawableLeft="@drawable/common_google_signin_btn_icon_light"
         android:fontFamily="sans-serif"
         android:text="Já tem conta? Logar"
         android:textColor="@color/blue"

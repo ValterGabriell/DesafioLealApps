@@ -35,5 +35,11 @@ class FeedActivity : AppCompatActivity() {
             }
         }
 
+        binding.txtMyTraining.setOnClickListener {
+            Intent(this, CreateTrainingActivity::class.java).also {
+                startActivity(it)
+            }
+        }
+
     }
 }

@@ -82,8 +82,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:hint="Email"
-        app:counterEnabled="true"
-        app:counterMaxLength="2"
+        app:counterEnabled="false"
         app:helperText="Ex. email@hotmail.com"
         app:hintAnimationEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/passwordTextInputLayoutActivityForm"
@@ -91,15 +90,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline13"
         app:layout_constraintVertical_bias="1.0"
-        app:suffixText=" Anos"
+        app:endIconMode="clear_text"
         app:suffixTextColor="@color/orange">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailEditTextActivityForm"
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:maxLength="2"
+            android:inputType="textEmailSubject"
             tools:ignore="DuplicateClickableBoundsCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -109,24 +108,21 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        app:endIconMode="password_toggle"
         android:layout_marginBottom="16dp"
-        android:hint="Email"
-        app:counterEnabled="true"
-        app:counterMaxLength="2"
-        app:helperText="Ex. email@hotmail.com"
+        android:hint="Password"
+        app:counterEnabled="false"
         app:hintAnimationEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/ageTextInputLayoutActivityForm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:suffixText=" Anos"
         app:suffixTextColor="@color/orange">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordEditTextActivityForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:maxLength="2" />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -135,10 +131,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        app:endIconMode="clear_text"
         android:layout_marginBottom="16dp"
         android:hint="Idade"
         app:counterEnabled="true"
-        app:counterMaxLength="2"
+        app:counterMaxLength="3"
         app:helperText="Ex. 22"
         app:hintAnimationEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/heightTextInputLayoutActivityForm"
@@ -151,8 +148,9 @@
             android:id="@+id/ageEditTextActivityForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:endIconMode="clear_text"
             android:inputType="number"
-            android:maxLength="2" />
+            android:maxLength="3" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -171,6 +169,7 @@
         app:hintAnimationEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/weightTextInputLayoutActivityForm"
         app:layout_constraintEnd_toEndOf="parent"
+        app:endIconMode="clear_text"
         app:layout_constraintStart_toStartOf="parent"
         app:suffixText="CM"
         app:suffixTextColor="@color/orange">
@@ -196,6 +195,7 @@
         app:counterMaxLength="5"
         app:helperText="Ex. 67.5"
         app:hintAnimationEnabled="true"
+        app:endIconMode="clear_text"
         app:layout_constraintBottom_toTopOf="@+id/guideline12"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -215,7 +215,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-
+        app:endIconMode="clear_text"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:hint="Peso"
@@ -260,6 +260,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expetedWeightTextInputLayoutActivityForm"
         app:layout_constraintVertical_bias="0.23000002" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:progressBackgroundTint="@color/orange"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/expetedWeightTextInputLayoutActivityForm" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
