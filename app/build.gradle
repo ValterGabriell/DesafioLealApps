@@ -90,5 +90,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
 
+    implementation 'com.github.chnouman:AwesomeDialog:1.0.5'
+
 
 }

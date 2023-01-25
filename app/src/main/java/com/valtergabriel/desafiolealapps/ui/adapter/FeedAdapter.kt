@@ -7,8 +7,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.valtergabriel.desafiolealapps.R
-import com.valtergabriel.desafiolealapps.mock.MockTrain
-import com.valtergabriel.desafiolealapps.mock.Training
+import com.valtergabriel.desafiolealapps.dto.Training
 
 class FeedAdapter(private val trainList: ArrayList<Training>) :
     RecyclerView.Adapter<FeedAdapter.MyViewHolder>() {
@@ -16,7 +15,7 @@ class FeedAdapter(private val trainList: ArrayList<Training>) :
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(training: Training) {
-            itemView.findViewById<TextView>(R.id.txt_title_exercise).text = training.name
+            itemView.findViewById<TextView>(R.id.txt_title_exercise).text = training.title
         }
     }
 
@@ -31,11 +30,11 @@ class FeedAdapter(private val trainList: ArrayList<Training>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(trainList[position])
         holder.itemView.findViewById<CardView>(R.id.card_view_feed).setOnClickListener {
-            setOnClick?.invoke(position, trainList[position].name, trainList[position].dateTime)
+            setOnClick?.invoke(trainList[position].name, trainList[position].title, trainList[position].dateTime)
         }
     }
 
-    var setOnClick : ((Int, String, String) -> Unit)? = null
+    var setOnClick : ((Long, String, String) -> Unit)? = null
 
     override fun getItemCount(): Int = trainList.size
 

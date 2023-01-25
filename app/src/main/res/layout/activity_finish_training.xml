@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/orange_low"
     tools:context=".ui.FinishTrainingActivity">
 
     <androidx.constraintlayout.widget.Guideline
@@ -31,6 +32,8 @@
         android:id="@+id/imgBefore"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@color/white_full"
         android:padding="8dp"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@+id/guideline30"
@@ -44,6 +47,8 @@
         android:id="@+id/imgAfter"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@color/white_full"
         android:padding="8dp"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@+id/guideline30"
@@ -57,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Antes"
-        android:textColor="@color/blue"
+        android:textColor="@color/white_less"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline32"
         app:layout_constraintEnd_toStartOf="@+id/guideline31"
@@ -69,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Depois"
-        android:textColor="@color/blue"
+        android:textColor="@color/white_less"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline32"
         app:layout_constraintEnd_toEndOf="parent"
@@ -77,11 +82,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView20"
+        android:id="@+id/txtNameTraining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Treino X"
-        android:textColor="@color/black"
+        android:textColor="@color/white_less"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline33"
@@ -97,10 +102,12 @@
         app:layout_constraintGuide_percent="0.8" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btnSaveImages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/white_full"
         android:text="Salvar"
+        android:textColor="@color/blue"
         app:cornerRadius="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,11 +1,13 @@
 package com.valtergabriel.desafiolealapps.viewmodel
 
 import android.content.Context
+import android.net.Uri
+import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.valtergabriel.desafiolealapps.mock.Exercises
-import com.valtergabriel.desafiolealapps.mock.Training
+import com.valtergabriel.desafiolealapps.dto.Exercises
+import com.valtergabriel.desafiolealapps.dto.Training
 import com.valtergabriel.desafiolealapps.repo.TrainingRepo
 import kotlinx.coroutines.launch
 
@@ -13,7 +15,6 @@ class TrainingViewModel(private val trainingRepo: TrainingRepo) : ViewModel() {
 
     val listExercises = MutableLiveData<ArrayList<Exercises>>()
     val listTraining = MutableLiveData<ArrayList<Training>>()
-    val traning = MutableLiveData<Training>()
 
     fun createNewTrainingOnFirebase(training: Training, context: Context) {
         viewModelScope.launch {
@@ -33,9 +34,15 @@ class TrainingViewModel(private val trainingRepo: TrainingRepo) : ViewModel() {
         }
     }
 
-    fun getCurrentTraning(trainingName: String) {
+    fun finishTraining(trainingName: String, imgBefore: Uri, uriAfter: Uri, context: Context) {
         viewModelScope.launch {
-            trainingRepo.getTraining(trainingName, traning)
+            trainingRepo.finishTraining(trainingName, imgBefore, uriAfter, context)
+        }
+    }
+
+    fun retriveImages(trainingName: String, imgBefore: ImageView, imgAfter: ImageView) {
+        viewModelScope.launch {
+            trainingRepo.retriveImages(trainingName, imgBefore, imgAfter)
         }
     }
 

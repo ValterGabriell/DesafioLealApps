@@ -1,4 +1,4 @@
-package com.valtergabriel.desafiolealapps.mock
+package com.valtergabriel.desafiolealapps.dto
 
 data class User(
     val email: String,

@@ -3,7 +3,7 @@ package com.valtergabriel.desafiolealapps.repo
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
-import com.valtergabriel.desafiolealapps.mock.User
+import com.valtergabriel.desafiolealapps.dto.User
 import com.valtergabriel.desafiolealapps.ui.FeedActivity
 import com.valtergabriel.desafiolealapps.util.Constants.COLLECTION_USER_NAME
 import com.valtergabriel.desafiolealapps.util.Firebase
@@ -56,6 +56,8 @@ class UserRepository {
                 Toast.makeText(context, "Falha ao logar usuário", Toast.LENGTH_SHORT).show()
             }
     }
+
+
 
 
 }

@@ -1,68 +1,99 @@
 package com.valtergabriel.desafiolealapps.ui
 
 import android.Manifest
-import android.graphics.Bitmap
+import android.content.Intent
 import android.graphics.BitmapFactory
-import android.graphics.Matrix
-import android.media.ExifInterface
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.valtergabriel.desafiolealapps.R
 import com.valtergabriel.desafiolealapps.databinding.ActivityFinishTrainingBinding
+import com.valtergabriel.desafiolealapps.viewmodel.TrainingViewModel
+import org.koin.android.ext.android.inject
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
 class FinishTrainingActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
     private lateinit var binding: ActivityFinishTrainingBinding
-    private lateinit var imgBefore: Bitmap
-    private lateinit var imgAfter: Bitmap
-
-    /**
-     * Contratos para abrir a galeria
-     */
-    private val getImageBefore =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            val inputStr = contentResolver.openInputStream(uri!!)
-            val image = BitmapFactory.decodeStream(inputStr)
-            binding.imgBefore.setImageBitmap(image)
-            imgBefore = image
-        }
-
-    private val getImageAfter =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            val inputStr = contentResolver.openInputStream(uri!!)
-            val image = BitmapFactory.decodeStream(inputStr)
-            binding.imgAfter.setImageBitmap(image)
-            imgAfter = image
-        }
+    private val trainingViewModel by inject<TrainingViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finish_training)
-
         binding = ActivityFinishTrainingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val trainingName = intent.extras?.get("training_name").toString()
+        val isJustSee = intent.extras?.get("is_just_see") as Boolean
+
+        if (isJustSee) {
+
+            trainingViewModel.retriveImages(trainingName, binding.imgBefore, binding.imgAfter)
+            binding.txtNameTraining.text = trainingName
+            binding.btnSaveImages.visibility = View.GONE
+        }
+
+
+        binding.txtNameTraining.text = trainingName
+        saveImages(trainingName)
+
+    }
+
+
+    private fun saveImages(trainingName: String) {
+        var uriBefore: Uri? = null
+        var uriAfter: Uri? = null
+
+        /**
+         * Contratos para acessar a galeria do celular
+         */
+        val getImageBefore =
+            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+                binding.imgBefore.setImageURI(uri)
+                uriBefore = uri
+            }
+
+        val getImageAfter =
+            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+                binding.imgAfter.setImageURI(uri)
+                uriAfter = uri
+            }
+
+        /**
+         * Setando metodos de clique para as duas imagens e solicitando as permissoes caso ainda nao tenha
+         */
 
         binding.imgBefore.setOnClickListener {
             val hasPermissions = methodRequireCameraPermission()
             if (hasPermissions) {
-                setGalleryLaunchBefore()
+                getImageBefore.launch("image/*")
             }
+
         }
 
         binding.imgAfter.setOnClickListener {
             val hasPermissions = methodRequireCameraPermission()
             if (hasPermissions) {
-                setGalleryLaunchAfter()
+                getImageAfter.launch("image/*")
             }
+
         }
 
+        /**
+         * Salvando as fotos no storage
+         */
+        binding.btnSaveImages.setOnClickListener {
+            trainingViewModel.finishTraining(trainingName, uriBefore!!, uriAfter!!, this)
+        }
+
+
     }
+
 
     private fun methodRequireCameraPermission(): Boolean {
         val perms = Manifest.permission.CAMERA
@@ -95,11 +126,4 @@ class FinishTrainingActivity : AppCompatActivity(), EasyPermissions.PermissionCa
         }
     }
 
-    private fun setGalleryLaunchBefore() {
-        getImageBefore.launch("image/*")
-    }
-
-    private fun setGalleryLaunchAfter() {
-        getImageAfter.launch("image/*")
-    }
 }

@@ -9,7 +9,7 @@ import com.valtergabriel.desafiolealapps.databinding.ActivityCreateNewExerciseBi
 import com.valtergabriel.desafiolealapps.mock.MockExercise
 import com.valtergabriel.desafiolealapps.ui.adapter.ExerciseMockAdapter
 
-class CreateNewExerciseActivity : AppCompatActivity() {
+class AddNewExerciseActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateNewExerciseBinding
     private lateinit var adapter: ExerciseMockAdapter
@@ -25,19 +25,22 @@ class CreateNewExerciseActivity : AppCompatActivity() {
         val trainingName = intent.extras?.get("training_name").toString()
 
 
+
         val list = MockExercise().getExercices()
         adapter = ExerciseMockAdapter(list)
         binding.recyclerAddExercise.adapter = adapter
         binding.recyclerAddExercise.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        adapter.setOnClick = { pos, name, id, type, description ->
-            Intent(this@CreateNewExerciseActivity, VizualizeExercise::class.java).also {
-                it.putExtra("exercise_name", name)
-                it.putExtra("id", id)
+        adapter.setOnClick = { name, title, duration, type, description ->
+            Intent(this@AddNewExerciseActivity, VizualizeExercise::class.java).also {
+                it.putExtra("exercise_name", title)
+                it.putExtra("id", name)
+                it.putExtra("duration", duration)
                 it.putExtra("description", description)
                 it.putExtra("type", type)
                 it.putExtra("training_name", trainingName)
+                it.putExtra("training_id", System.currentTimeMillis())
                 startActivity(it)
             }
 

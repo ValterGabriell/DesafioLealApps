@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.valtergabriel.desafiolealapps.databinding.ActivityFormBinding
-import com.valtergabriel.desafiolealapps.mock.User
+import com.valtergabriel.desafiolealapps.dto.User
 import com.valtergabriel.desafiolealapps.util.Firebase.getAuth
 import com.valtergabriel.desafiolealapps.util.Validation.isEmptyField
 import com.valtergabriel.desafiolealapps.viewmodel.UserViewModel

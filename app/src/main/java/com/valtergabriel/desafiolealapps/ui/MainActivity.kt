@@ -20,7 +20,11 @@ class MainActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
 
 
-
+        if (Firebase.getAuth().currentUser != null){
+            Intent(this, FeedActivity::class.java).also {
+                startActivity(it)
+            }
+        }
 
         binding.btnSignUp.setOnClickListener {
             Intent(this, FormActivity::class.java).also {
