@@ -69,14 +69,23 @@ class VizualizeTraining : AppCompatActivity() {
 
         trainingViewModel.getExercisesFromFirebase(trainingName).also {
             trainingViewModel.listExercises.observe(this) { exercies ->
-                adapter = ExerciseFirebaseAdapter(exercies)
-                binding.recyclerView.adapter = adapter
-                binding.recyclerView.layoutManager = LinearLayoutManager(this)
-                adapter.setOnClick = { name, duration, type, obs, exercise_id ->
-                    AwesomeDialog.build(this)
-                        .title(name)
-                        .body(obs)
-                        .onPositive("Ok!")
+
+                if (exercies.isNotEmpty()) {
+                    binding.loadingList.visibility = View.GONE
+                    binding.recyclerView.visibility = View.VISIBLE
+
+                    adapter = ExerciseFirebaseAdapter(exercies)
+                    binding.recyclerView.adapter = adapter
+                    binding.recyclerView.layoutManager = LinearLayoutManager(this)
+                    adapter.setOnClick = { name, duration, type, obs, exercise_id ->
+                        AwesomeDialog.build(this)
+                            .title(name)
+                            .body(obs)
+                            .onPositive("Ok!")
+                    }
+                } else {
+                    binding.loadingList.visibility = View.GONE
+                    binding.emptyList.visibility = View.VISIBLE
                 }
 
             }

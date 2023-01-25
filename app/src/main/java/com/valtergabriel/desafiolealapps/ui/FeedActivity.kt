@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.valtergabriel.desafiolealapps.R
@@ -59,16 +60,27 @@ class FeedActivity : AppCompatActivity() {
 
         trainingViewModel.getTraningsFromFirebase()
         trainingViewModel.listTraining.observe(this){ trainings ->
-            adapter = FeedAdapter(trainings)
-            feedRecyclerView.adapter = adapter
-            feedRecyclerView.layoutManager = LinearLayoutManager(this)
-            adapter.setOnClick = { name, trainingName, _ ->
-                Intent(this, VizualizeTraining::class.java).also { intent ->
-                    intent.putExtra("traning_name_from_feed", trainingName)
-                    intent.putExtra("traning_id", name)
-                    startActivity(intent)
+            if (trainings.isNotEmpty()){
+                binding.loadingList.visibility = View.GONE
+                binding.feedRecyclerView.visibility = View.VISIBLE
+
+                adapter = FeedAdapter(trainings)
+                feedRecyclerView.adapter = adapter
+                feedRecyclerView.layoutManager = LinearLayoutManager(this)
+                adapter.setOnClick = { name, trainingName, _ ->
+                    Intent(this, VizualizeTraining::class.java).also { intent ->
+                        intent.putExtra("traning_name_from_feed", trainingName)
+                        intent.putExtra("traning_id", name)
+                        startActivity(intent)
+                    }
                 }
+            }else{
+                binding.loadingList.visibility = View.GONE
+                binding.emptyList.visibility = View.VISIBLE
             }
+
+
+
         }
     }
 }
