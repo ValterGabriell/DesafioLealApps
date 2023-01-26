@@ -16,6 +16,7 @@ class TrainingViewModel(private val trainingRepo: TrainingRepo) : ViewModel() {
     val listExercises = MutableLiveData<ArrayList<Exercises>>()
     val listTraining = MutableLiveData<ArrayList<Training>>()
 
+
     fun createNewTrainingOnFirebase(training: Training, context: Context) {
         viewModelScope.launch {
             trainingRepo.createNewTraining(training, context)
@@ -40,9 +41,34 @@ class TrainingViewModel(private val trainingRepo: TrainingRepo) : ViewModel() {
         }
     }
 
-    fun retriveImages(trainingName: String, imgBefore: ImageView, imgAfter: ImageView) {
+    fun retriveImages(
+        trainingName: String,
+        imgBefore: ImageView,
+        imgAfter: ImageView,
+        context: Context
+    ) {
         viewModelScope.launch {
-            trainingRepo.retriveImages(trainingName, imgBefore, imgAfter)
+            trainingRepo.retriveImages(trainingName, imgBefore, imgAfter, context)
+        }
+    }
+
+    fun updateTrainingData(
+        trainingName: String,
+        newTrainingName: String,
+        context: Context
+    ) {
+        viewModelScope.launch {
+            trainingRepo.updateTrainingData(trainingName, newTrainingName, context)
+        }
+    }
+
+
+    fun deleteTraining(
+        trainingName: String,
+        context: Context
+    ) {
+        viewModelScope.launch {
+            trainingRepo.deleteTraining(trainingName, context)
         }
     }
 

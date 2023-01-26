@@ -23,6 +23,8 @@ class AddNewExerciseActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val trainingName = intent.extras?.get("training_name").toString()
+        val trainingDesc = intent.extras?.get("training_desc").toString()
+        val staticTitle = intent.extras?.get("static_title").toString()
 
 
 
@@ -38,8 +40,10 @@ class AddNewExerciseActivity : AppCompatActivity() {
                 it.putExtra("id", name)
                 it.putExtra("duration", duration)
                 it.putExtra("description", description)
+                it.putExtra("static_title", staticTitle)
                 it.putExtra("type", type)
                 it.putExtra("training_name", trainingName)
+                it.putExtra("training_desc", trainingDesc)
                 it.putExtra("training_id", System.currentTimeMillis())
                 startActivity(it)
             }

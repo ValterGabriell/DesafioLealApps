@@ -32,8 +32,7 @@ class FinishTrainingActivity : AppCompatActivity(), EasyPermissions.PermissionCa
         val isJustSee = intent.extras?.get("is_just_see") as Boolean
 
         if (isJustSee) {
-
-            trainingViewModel.retriveImages(trainingName, binding.imgBefore, binding.imgAfter)
+            trainingViewModel.retriveImages(trainingName, binding.imgBefore, binding.imgAfter, this)
             binding.txtNameTraining.text = trainingName
             binding.btnSaveImages.visibility = View.GONE
         }
@@ -125,5 +124,6 @@ class FinishTrainingActivity : AppCompatActivity(), EasyPermissions.PermissionCa
             AppSettingsDialog.Builder(this).build().show()
         }
     }
+
 
 }

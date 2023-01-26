@@ -23,9 +23,11 @@ class VizualizeExercise : AppCompatActivity() {
         val exerciseName = intent.extras?.get("exercise_name").toString()
         val id = intent.extras?.get("id") as Long
         val trainingName = intent.extras?.get("training_name").toString()
+        val staticTitle = intent.extras?.get("static_title").toString()
+        val trainingDesc = intent.extras?.get("training_desc").toString()
+        val obs = intent.extras?.get("exe_desc").toString()
         val trainingId = intent.extras?.get("training_id") as Long
         val duration = intent.extras?.get("duration").toString()
-        val description = intent.extras?.get("description").toString()
         val type = intent.extras?.get("type").toString()
 
         binding.editText.setText(duration)
@@ -39,17 +41,20 @@ class VizualizeExercise : AppCompatActivity() {
             val exercise = Exercises(
                 id,
                 exerciseName,
-                description,
+                obs,
                 type,
                 time
             )
             listExercise.add(exercise)
+
+
             val training = Training(
                 trainingId,
                 trainingName,
+                staticTitle,
                 exercise,
                 LocalDateTime.now().toString(),
-                "descricao do treino"
+                trainingDesc
             )
             trainingViewModel.createNewTrainingOnFirebase(training, this)
         }

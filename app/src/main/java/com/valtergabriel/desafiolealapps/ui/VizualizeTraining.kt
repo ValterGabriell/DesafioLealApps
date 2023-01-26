@@ -29,45 +29,41 @@ class VizualizeTraining : AppCompatActivity() {
         setContentView(binding.root)
 
         val trainingName = intent.extras?.get("traning_name_from_feed").toString()
+        val staticTitle = intent.extras?.get("traning_static_name_from_feed").toString()
+        val trainingDesc = intent.extras?.get("traning_desc_from_feed").toString()
+
         binding.txtName.text = trainingName
+        binding.txtDesc.text = trainingDesc
 
-
-        val trainingId = intent.extras?.get("traning_id") as Long
-        if (trainingId != null) {
-            binding.fabFinish.visibility = View.VISIBLE
-        }
-
-
-
-        binding.imageButton.setOnClickListener {
-            Intent(this, FinishTrainingActivity::class.java).also {
-                it.putExtra("is_just_see", true)
-                it.putExtra("training_name", trainingName)
-                startActivity(it)
+        binding.imageButton.apply {
+            setOnClickListener {
+                changeActivity(trainingName)
             }
         }
 
+        binding.imgEdit.setOnClickListener {
+            Intent(this, CreateTrainingActivity::class.java).also {
+                it.putExtra("wanna_edit", true)
+                it.putExtra("training_name", staticTitle)
+                startActivity(it)
+            }
+        }
 
         binding.fabFinish.setOnClickListener {
             AwesomeDialog.build(this)
                 .title("Acompanhe seu desempenho")
                 .body("Salve suas fotos de antes e depois do treino")
-                .onPositive("Salvar!") {
+                .onPositive("Vamos lá!") {
                     Intent(this, FinishTrainingActivity::class.java).also {
                         it.putExtra("is_just_see", false)
                         it.putExtra("training_name", trainingName)
                         startActivity(it)
                     }
                 }
-                .onNegative("Não quero, obrigado!") {
-                    Intent(this, FeedActivity::class.java).also {
-                        startActivity(it)
-                    }
-                }
         }
 
 
-        trainingViewModel.getExercisesFromFirebase(trainingName).also {
+        trainingViewModel.getExercisesFromFirebase(staticTitle).also {
             trainingViewModel.listExercises.observe(this) { exercies ->
 
                 if (exercies.isNotEmpty()) {
@@ -77,11 +73,26 @@ class VizualizeTraining : AppCompatActivity() {
                     adapter = ExerciseFirebaseAdapter(exercies)
                     binding.recyclerView.adapter = adapter
                     binding.recyclerView.layoutManager = LinearLayoutManager(this)
-                    adapter.setOnClick = { name, duration, type, obs, exercise_id ->
+                    adapter.setOnClick = { title, duration, type, obs, name ->
+
                         AwesomeDialog.build(this)
-                            .title(name)
+                            .title("$title - $duration min")
                             .body(obs)
                             .onPositive("Ok!")
+                            .onNegative("Editar duração") {
+                                Intent(this@VizualizeTraining, VizualizeExercise::class.java).also {
+                                    it.putExtra("exercise_name", title)
+                                    it.putExtra("id", name)
+                                    it.putExtra("duration", duration)
+                                    it.putExtra("type", type)
+                                    it.putExtra("static_title", staticTitle)
+                                    it.putExtra("training_desc", trainingDesc)
+                                    it.putExtra("exe_desc", obs)
+                                    it.putExtra("training_name", trainingName)
+                                    it.putExtra("training_id", System.currentTimeMillis())
+                                    startActivity(it)
+                                }
+                            }
                     }
                 } else {
                     binding.loadingList.visibility = View.GONE
@@ -90,6 +101,14 @@ class VizualizeTraining : AppCompatActivity() {
 
             }
 
+        }
+    }
+
+    private fun changeActivity(trainingName: String) {
+        Intent(this, FinishTrainingActivity::class.java).also {
+            it.putExtra("is_just_see", true)
+            it.putExtra("training_name", trainingName)
+            startActivity(it)
         }
     }
 

@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
-import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseUser
 import com.squareup.picasso.Picasso
@@ -19,6 +19,8 @@ import com.valtergabriel.desafiolealapps.util.Constants.COLLECTION_TRAINING
 import com.valtergabriel.desafiolealapps.util.Constants.COLLECTION_USER_NAME
 import com.valtergabriel.desafiolealapps.util.Constants.PATH_PATTERN
 import com.valtergabriel.desafiolealapps.util.Firebase
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 class TrainingRepo {
 
@@ -39,6 +41,7 @@ class TrainingRepo {
             val trainingData = hashMapOf(
                 "name" to training.name,
                 "title" to training.title,
+                "staticTitle" to training.staticTitle,
                 "date" to training.dateTime,
                 "desc" to training.desc,
                 "imageBefore" to PATH_PATTERN,
@@ -62,6 +65,7 @@ class TrainingRepo {
                 .also {
                     Intent(context, CreateTrainingActivity::class.java).also {
                         it.putExtra("traning_name_from_last_exercise_added", training.title)
+                        it.putExtra("wanna_edit", false)
                         context.startActivity(it)
                     }
                 }
@@ -116,6 +120,7 @@ class TrainingRepo {
                         val model = Training(
                             item["name"] as Long,
                             item["title"].toString(),
+                            item["staticTitle"].toString(),
                             null,
                             item["id"].toString(),
                             item["desc"].toString()
@@ -127,31 +132,6 @@ class TrainingRepo {
         }
     }
 
-    suspend fun getTraining(
-        traningName: String,
-        traning: MutableLiveData<Training>
-    ) {
-
-        val userAuthenticated = Firebase.getAuth().currentUser
-        if (userAuthenticated != null) {
-            Firebase.getFirestore().collection(COLLECTION_USER_NAME)
-                .document(userAuthenticated.uid)
-                .collection(COLLECTION_TRAINING)
-                .document(traningName)
-                .get()
-                .addOnSuccessListener {
-                    val myTraining = Training(
-                        it["name"] as Long,
-                        it["title"].toString(),
-                        null,
-                        it["id"].toString(),
-                        it["desc"].toString()
-                    )
-                    traning.postValue(myTraining)
-                }
-
-        }
-    }
 
     suspend fun finishTraining(
         traningName: String,
@@ -173,9 +153,13 @@ class TrainingRepo {
         }
     }
 
-     fun retriveImages(traningName: String, imgBefore: ImageView, imgAfter: ImageView) {
+    fun retriveImages(
+        traningName: String,
+        imgBefore: ImageView,
+        imgAfter: ImageView,
+        context: Context
+    ) {
         val userAuthenticated = Firebase.getAuth().currentUser
-
 
         if (userAuthenticated != null) {
 
@@ -187,14 +171,23 @@ class TrainingRepo {
 
 
             trainingRef.addOnSuccessListener {
-                    if (it.exists()) {
-                        val path = it.get("imageBefore").toString()
-                        if (path != PATH_PATTERN) {
-                            val img = Uri.parse(path)
-                            Picasso.get().load(img).placeholder(R.drawable.a).into(imgBefore)
+                if (it.exists()) {
+                    val path = it.get("imageBefore").toString()
+                    if (path != PATH_PATTERN) {
+                        val img = Uri.parse(path)
+                        Picasso.get().load(img).placeholder(R.drawable.a).into(imgBefore)
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Ainda nao foi setado fotos para esse treino",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Intent(context, FeedActivity::class.java).also {
+                            context.startActivity(it)
                         }
                     }
                 }
+            }
 
             trainingRef.addOnSuccessListener {
                 if (it.exists()) {
@@ -202,11 +195,79 @@ class TrainingRepo {
                     if (path != PATH_PATTERN) {
                         val img = Uri.parse(path)
                         Picasso.get().load(img).placeholder(R.drawable.a).into(imgAfter)
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Ainda nao foi setado fotos para esse treino",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Intent(context, FeedActivity::class.java).also {
+                            context.startActivity(it)
+                        }
                     }
                 }
             }
 
         }
+    }
+
+    fun updateTrainingData(traningName: String, newTrainingName: String, context: Context) {
+        val userAuthenticated = Firebase.getAuth().currentUser
+        if (userAuthenticated != null) {
+            val trainingRef = Firebase.getFirestore().collection(COLLECTION_USER_NAME)
+                .document(userAuthenticated.uid)
+                .collection(COLLECTION_TRAINING)
+                .document(traningName)
+
+
+            trainingRef.update(
+                "title",
+                newTrainingName
+            ).addOnSuccessListener {
+                Intent(context, FeedActivity::class.java).also {
+                    context.startActivity(it)
+                }
+            }.addOnFailureListener {
+                Log.i("TAG", "erro ao atualizar")
+            }
+
+            trainingRef.update(
+                "date",
+                LocalDateTime.now().toString()
+            )
+        }
+
+    }
+
+    fun deleteTraining(traningName: String, context: Context) {
+        val userAuthenticated = Firebase.getAuth().currentUser
+        if (userAuthenticated != null) {
+
+            Firebase.getFirestore().collection(COLLECTION_USER_NAME)
+                .document(userAuthenticated.uid)
+                .collection(COLLECTION_TRAINING)
+                .document(traningName)
+                .delete()
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Deletado com sucesso", Toast.LENGTH_SHORT).show()
+                    Intent(context, FeedActivity::class.java).also {
+                        context.startActivity(it)
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(context, "Falha ao deletar", Toast.LENGTH_SHORT).show()
+                    Intent(context, FeedActivity::class.java).also {
+                        context.startActivity(it)
+                    }
+                }
+
+
+            Firebase.getStorage().reference
+                .child("images/${userAuthenticated.uid}/$traningName/after")
+                .child("images/${userAuthenticated.uid}/$traningName/before")
+                .delete()
+
+        }
+
     }
 
 
@@ -223,20 +284,26 @@ class TrainingRepo {
             .child("images/${userAuthenticated.uid}")
             .child("$traningName/after")
             .downloadUrl.addOnSuccessListener { uri ->
+                Log.i("TAG", uri.toString())
                 trainingRef.update(
                     "imageAfter",
                     uri.toString()
                 )
+            }.addOnFailureListener {
+                Log.i("TAG", it.message.toString())
             }
 
         Firebase.getStorage().reference
             .child("images/${userAuthenticated.uid}")
             .child("$traningName/before")
             .downloadUrl.addOnSuccessListener { uri ->
+                Log.i("TAG", uri.toString())
                 trainingRef.update(
                     "imageBefore",
                     uri.toString()
                 )
+            }.addOnFailureListener {
+                Log.i("TAG", it.message.toString())
             }
 
     }

@@ -42,6 +42,7 @@ class FeedActivity : AppCompatActivity() {
                  * sempre que fosse escrever nele.
                  */
                 it.putExtra("traning_name_from_last_exercise_added", EXEMPLE)
+                it.putExtra("wanna_edit", false)
                 startActivity(it)
             }
         }
@@ -49,6 +50,7 @@ class FeedActivity : AppCompatActivity() {
         txtMyTraining.setOnClickListener {
             Intent(this, CreateTrainingActivity::class.java).also {
                 it.putExtra("traning_name_from_last_exercise_added", "")
+                it.putExtra("wanna_edit", false)
                 startActivity(it)
             }
         }
@@ -67,10 +69,11 @@ class FeedActivity : AppCompatActivity() {
                 adapter = FeedAdapter(trainings)
                 feedRecyclerView.adapter = adapter
                 feedRecyclerView.layoutManager = LinearLayoutManager(this)
-                adapter.setOnClick = { name, trainingName, _ ->
+                adapter.setOnClick = { staticTitle, title, desc ->
                     Intent(this, VizualizeTraining::class.java).also { intent ->
-                        intent.putExtra("traning_name_from_feed", trainingName)
-                        intent.putExtra("traning_id", name)
+                        intent.putExtra("traning_name_from_feed", title)
+                        intent.putExtra("traning_desc_from_feed", desc)
+                        intent.putExtra("traning_static_name_from_feed", staticTitle)
                         startActivity(intent)
                     }
                 }

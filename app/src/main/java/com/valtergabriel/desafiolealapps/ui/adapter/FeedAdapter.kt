@@ -30,11 +30,11 @@ class FeedAdapter(private val trainList: ArrayList<Training>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(trainList[position])
         holder.itemView.findViewById<CardView>(R.id.card_view_feed).setOnClickListener {
-            setOnClick?.invoke(trainList[position].name, trainList[position].title, trainList[position].dateTime)
+            setOnClick?.invoke(trainList[position].staticTitle, trainList[position].title, trainList[position].desc)
         }
     }
 
-    var setOnClick : ((Long, String, String) -> Unit)? = null
+    var setOnClick : ((String, String, String) -> Unit)? = null
 
     override fun getItemCount(): Int = trainList.size
 
