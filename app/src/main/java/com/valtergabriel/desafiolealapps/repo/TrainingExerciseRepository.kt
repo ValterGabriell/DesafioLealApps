@@ -200,9 +200,7 @@ class TrainingExerciseRepository {
         val userAuthenticated = Firebase.getAuth().currentUser
         if (userAuthenticated != null) {
 
-            savePicturesOnStorage(userAuthenticated, traningName, uriBefore, uriAfter, context).also {
-                updateTraningDataUriOnFirestore(userAuthenticated, traningName, context)
-            }
+            savePicturesOnStorage(userAuthenticated, traningName, uriBefore, uriAfter, context)
         }
     }
 
@@ -439,6 +437,9 @@ class TrainingExerciseRepository {
         ref
             .child("before")
             .putFile(uriBefore)
+            .addOnSuccessListener {
+                updateTraningDataUriOnFirestore(userAuthenticated, traningName, context)
+            }
             .addOnFailureListener {
                 Intent(context, FeedActivity::class.java).also {
                     context.startActivity(it)
@@ -451,6 +452,9 @@ class TrainingExerciseRepository {
         ref
             .child("after")
             .putFile(uriAfter)
+            .addOnSuccessListener {
+                updateTraningDataUriOnFirestore(userAuthenticated, traningName, context)
+            }
             .addOnFailureListener {
                 Intent(context, FeedActivity::class.java).also {
                     context.startActivity(it)
