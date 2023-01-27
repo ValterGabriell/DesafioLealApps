@@ -54,7 +54,7 @@ class VizualizeExercise : AppCompatActivity() {
             val listExercise = ArrayList<Exercises>()
             val duration = binding.editText.text.toString()
 
-            if (duration != "0" && duration == ""){
+            if (duration != "0"){
                 val exercise = Exercises(
                     exerciseId,
                     exerciseName,
