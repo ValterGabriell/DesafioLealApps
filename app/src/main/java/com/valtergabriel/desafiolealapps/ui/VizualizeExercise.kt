@@ -54,7 +54,7 @@ class VizualizeExercise : AppCompatActivity() {
             val listExercise = ArrayList<Exercises>()
             val duration = binding.editText.text.toString()
 
-            if (duration != "0"){
+            if (duration != "0" && duration == ""){
                 val exercise = Exercises(
                     exerciseId,
                     exerciseName,
@@ -75,7 +75,7 @@ class VizualizeExercise : AppCompatActivity() {
                 )
                 trainingViewModel.createNewTrainingOnFirebase(training, this)
             }else{
-                Toast.makeText(this, "A duracao precisa ser maior do que 0 minutos!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "A duracao precisa ser maior do que 0 minutos nem vazio!", Toast.LENGTH_SHORT).show()
             }
 
         }
