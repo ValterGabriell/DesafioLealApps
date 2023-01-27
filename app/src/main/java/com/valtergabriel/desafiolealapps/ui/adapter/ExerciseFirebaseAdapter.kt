@@ -15,13 +15,14 @@ class ExerciseFirebaseAdapter(private val exerciseList: List<Exercises>) :
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(exercise: Exercises) {
-            itemView.findViewById<TextView>(R.id.txt_title_exercise) .text = exercise.title
+            itemView.findViewById<TextView>(R.id.txt_title_).text = exercise.title
+            itemView.findViewById<TextView>(R.id.txtMinutes).text = exercise.duration + " minutos"
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.layout_recycler_view_all_exercise, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.layout_recycler_view_exercise, parent, false)
         return MyViewHolder(view)
     }
 
@@ -29,7 +30,7 @@ class ExerciseFirebaseAdapter(private val exerciseList: List<Exercises>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(exerciseList[position])
-        holder.itemView.findViewById<CardView>(R.id.card_view_all_exercise).setOnClickListener {
+        holder.itemView.findViewById<CardView>(R.id.card_view_exercise).setOnClickListener {
             setOnClick?.invoke(exerciseList[position].title, exerciseList[position].duration, exerciseList[position].type, exerciseList[position].obs, exerciseList[position].name)
         }
     }

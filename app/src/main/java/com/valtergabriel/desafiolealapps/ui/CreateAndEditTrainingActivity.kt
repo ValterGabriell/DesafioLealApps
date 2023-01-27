@@ -31,7 +31,7 @@ class CreateAndEditTrainingActivity : AppCompatActivity() {
         binding = ActivityCreateTrainingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val btnAddNewExercise = binding.btnAddNewExercise
+        val btnAddNewExercise = binding.txtExercises
         val fabCreateTraining = binding.fabCreateTraining
         val btnFirstAddTraining = binding.btnFirstAddTraining
 
@@ -68,7 +68,6 @@ class CreateAndEditTrainingActivity : AppCompatActivity() {
         if (wannaEdit) {
             binding.txtInputObs.visibility = View.GONE
             binding.txtExercises.visibility = View.GONE
-            binding.btnAddNewExercise.visibility = View.GONE
             binding.fabCreateTraining.visibility = View.GONE
 
 
@@ -110,9 +109,8 @@ class CreateAndEditTrainingActivity : AppCompatActivity() {
                     binding.btnFirstAddTraining.visibility = View.GONE
                     binding.txtHeader.visibility = View.GONE
 
-                    binding.txtExercises.visibility = View.VISIBLE
                     binding.recyclerViewAddExercisesActivity.visibility = View.VISIBLE
-                    binding.btnAddNewExercise.visibility = View.VISIBLE
+                    binding.txtExercises.visibility = View.VISIBLE
                     binding.fabCreateTraining.visibility = View.VISIBLE
 
 

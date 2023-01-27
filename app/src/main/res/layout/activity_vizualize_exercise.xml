@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:text="TextView"
-        android:textColor="@color/black"
+        android:textColor="@color/orange_low"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/txtDescView"
         app:layout_constraintEnd_toStartOf="@+id/guideline36"

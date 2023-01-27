@@ -373,22 +373,7 @@ class TrainingExerciseRepository {
                         context.startActivity(it)
                     }
                     Toast.makeText(context, "Foto salva com sucesso", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener {
-                    Intent(context, FeedActivity::class.java).also {
-                        context.startActivity(it)
-                    }
-                    Toast.makeText(
-                        context,
-                        "Erro ao salvar foto, tente novamente",
-                        Toast.LENGTH_SHORT
-                    ).show()
                 }
-            }.addOnFailureListener {
-                Intent(context, FeedActivity::class.java).also {
-                    context.startActivity(it)
-                }
-                Toast.makeText(context, "Erro ao salvar foto, tente novamente", Toast.LENGTH_SHORT)
-                    .show()
             }
 
 
@@ -397,25 +382,12 @@ class TrainingExerciseRepository {
             .child("images/${userAuthenticated.uid}")
             .child("$traningName/before")
             .downloadUrl.addOnSuccessListener { uri ->
-                Log.i("TAG", uri.toString())
                 trainingRef.update(
                     "imageBefore",
                     uri.toString()
                 ).addOnSuccessListener {
                     Toast.makeText(context, "Foto salva com sucesso", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener {
-                    Toast.makeText(
-                        context,
-                        "Erro ao salvar foto, tente novamente",
-                        Toast.LENGTH_SHORT
-                    ).show()
                 }
-            }.addOnFailureListener {
-                Intent(context, FeedActivity::class.java).also {
-                    context.startActivity(it)
-                }
-                Toast.makeText(context, "Erro ao salvar foto, tente novamente", Toast.LENGTH_SHORT)
-                    .show()
             }
 
     }
@@ -441,12 +413,10 @@ class TrainingExerciseRepository {
                 updateTraningDataUriOnFirestore(userAuthenticated, traningName, context)
             }
             .addOnFailureListener {
+                Toast.makeText(context, "Erro sao salvar a foto", Toast.LENGTH_SHORT).show()
                 Intent(context, FeedActivity::class.java).also {
                     context.startActivity(it)
                 }
-                Toast.makeText(context, "Erro ao salvar foto, tente novamente", Toast.LENGTH_SHORT)
-                    .show()
-
             }
 
         ref
@@ -456,12 +426,10 @@ class TrainingExerciseRepository {
                 updateTraningDataUriOnFirestore(userAuthenticated, traningName, context)
             }
             .addOnFailureListener {
+                Toast.makeText(context, "Erro sao salvar a foto", Toast.LENGTH_SHORT).show()
                 Intent(context, FeedActivity::class.java).also {
                     context.startActivity(it)
                 }
-                Toast.makeText(context, "Erro ao salvar foto, tente novamente", Toast.LENGTH_SHORT)
-                    .show()
-
             }
 
     }
