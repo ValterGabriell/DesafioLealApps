@@ -1,20 +1,28 @@
 package com.valtergabriel.desafiolealapps.ui
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.awesomedialog.*
-import com.valtergabriel.desafiolealapps.R
-import com.valtergabriel.desafiolealapps.databinding.ActivityFeedBinding
 import com.valtergabriel.desafiolealapps.databinding.ActivityVizualizeTrainingBinding
 import com.valtergabriel.desafiolealapps.ui.adapter.ExerciseFirebaseAdapter
-import com.valtergabriel.desafiolealapps.ui.adapter.FeedAdapter
+import com.valtergabriel.desafiolealapps.util.Constants.EXERCISE_DESCRIPTION
+import com.valtergabriel.desafiolealapps.util.Constants.EXERCISE_DURATION
+import com.valtergabriel.desafiolealapps.util.Constants.EXERCISE_NAME
+import com.valtergabriel.desafiolealapps.util.Constants.EXERCISE_NAME_ID
+import com.valtergabriel.desafiolealapps.util.Constants.EXERCISE_TYPE
+import com.valtergabriel.desafiolealapps.util.Constants.JUST_WANNA_SEE
+import com.valtergabriel.desafiolealapps.util.Constants.STATIC_TITLE
+import com.valtergabriel.desafiolealapps.util.Constants.TRAINING_DESCRIPTION
+import com.valtergabriel.desafiolealapps.util.Constants.TRAINING_DESCRIPTION_FROM_FEED_SCREEN
+import com.valtergabriel.desafiolealapps.util.Constants.TRAINING_NAME
+import com.valtergabriel.desafiolealapps.util.Constants.TRAINING_NAME_FROM_FEED_SCREEN
+import com.valtergabriel.desafiolealapps.util.Constants.TRAINING_NAME_ID
+import com.valtergabriel.desafiolealapps.util.Constants.TRAINING_STATIC_NAME_FROM_FEED_SCREEN
+import com.valtergabriel.desafiolealapps.util.Constants.WANNA_EDIT
 import com.valtergabriel.desafiolealapps.viewmodel.TrainingViewModel
 import org.koin.android.ext.android.inject
 
@@ -28,23 +36,32 @@ class VizualizeTraining : AppCompatActivity() {
         binding = ActivityVizualizeTrainingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val trainingName = intent.extras?.get("traning_name_from_feed").toString()
-        val staticTitle = intent.extras?.get("traning_static_name_from_feed").toString()
-        val trainingDesc = intent.extras?.get("traning_desc_from_feed").toString()
+        val trainingName = intent.extras?.get(TRAINING_NAME_FROM_FEED_SCREEN).toString()
+        val staticTitle = intent.extras?.get(TRAINING_STATIC_NAME_FROM_FEED_SCREEN).toString()
+        val trainingDesc = intent.extras?.get(TRAINING_DESCRIPTION_FROM_FEED_SCREEN).toString()
 
         binding.txtName.text = trainingName
         binding.txtDesc.text = trainingDesc
 
         binding.imageButton.apply {
             setOnClickListener {
-                changeActivity(trainingName)
+                changeActivity(staticTitle)
+            }
+        }
+
+        binding.btnAddMoreExercise.setOnClickListener {
+            Intent(this, AddNewExerciseActivity::class.java).also {
+                it.putExtra(STATIC_TITLE, staticTitle)
+                it.putExtra(TRAINING_NAME, trainingName)
+                it.putExtra(TRAINING_DESCRIPTION, trainingDesc)
+                startActivity(it)
             }
         }
 
         binding.imgEdit.setOnClickListener {
-            Intent(this, CreateTrainingActivity::class.java).also {
-                it.putExtra("wanna_edit", true)
-                it.putExtra("training_name", staticTitle)
+            Intent(this, CreateAndEditTrainingActivity::class.java).also {
+                it.putExtra(WANNA_EDIT, true)
+                it.putExtra(STATIC_TITLE, staticTitle)
                 startActivity(it)
             }
         }
@@ -56,7 +73,7 @@ class VizualizeTraining : AppCompatActivity() {
                 .onPositive("Vamos lá!") {
                     Intent(this, FinishTrainingActivity::class.java).also {
                         it.putExtra("is_just_see", false)
-                        it.putExtra("training_name", trainingName)
+                        it.putExtra("training_name", staticTitle)
                         startActivity(it)
                     }
                 }
@@ -65,31 +82,38 @@ class VizualizeTraining : AppCompatActivity() {
 
         trainingViewModel.getExercisesFromFirebase(staticTitle).also {
             trainingViewModel.listExercises.observe(this) { exercies ->
-
                 if (exercies.isNotEmpty()) {
                     binding.loadingList.visibility = View.GONE
                     binding.recyclerView.visibility = View.VISIBLE
+                    binding.fabFinish.visibility = View.VISIBLE
 
                     adapter = ExerciseFirebaseAdapter(exercies)
                     binding.recyclerView.adapter = adapter
                     binding.recyclerView.layoutManager = LinearLayoutManager(this)
-                    adapter.setOnClick = { title, duration, type, obs, name ->
+                    adapter.setOnClick = { title, duration, type, obs, exercise_id ->
 
                         AwesomeDialog.build(this)
                             .title("$title - $duration min")
                             .body(obs)
-                            .onPositive("Ok!")
+                            .onPositive("Deletar") {
+                                trainingViewModel.deleteExercise(
+                                    staticTitle,
+                                    exercise_id.toString(),
+                                    this
+                                )
+                            }
                             .onNegative("Editar duração") {
                                 Intent(this@VizualizeTraining, VizualizeExercise::class.java).also {
-                                    it.putExtra("exercise_name", title)
-                                    it.putExtra("id", name)
-                                    it.putExtra("duration", duration)
-                                    it.putExtra("type", type)
-                                    it.putExtra("static_title", staticTitle)
-                                    it.putExtra("training_desc", trainingDesc)
-                                    it.putExtra("exe_desc", obs)
-                                    it.putExtra("training_name", trainingName)
-                                    it.putExtra("training_id", System.currentTimeMillis())
+                                    it.putExtra(EXERCISE_NAME, title)
+                                    it.putExtra(EXERCISE_NAME_ID, exercise_id)
+                                    it.putExtra(EXERCISE_DURATION, duration)
+                                    it.putExtra(EXERCISE_TYPE, type)
+                                    it.putExtra(STATIC_TITLE, staticTitle)
+                                    it.putExtra(TRAINING_DESCRIPTION, trainingDesc)
+                                    it.putExtra(EXERCISE_DESCRIPTION, obs)
+                                    it.putExtra(TRAINING_NAME, trainingName)
+                                    it.putExtra(TRAINING_NAME_ID, System.currentTimeMillis())
+                                    it.putExtra(WANNA_EDIT, true)
                                     startActivity(it)
                                 }
                             }
@@ -106,8 +130,8 @@ class VizualizeTraining : AppCompatActivity() {
 
     private fun changeActivity(trainingName: String) {
         Intent(this, FinishTrainingActivity::class.java).also {
-            it.putExtra("is_just_see", true)
-            it.putExtra("training_name", trainingName)
+            it.putExtra(JUST_WANNA_SEE, true)
+            it.putExtra(TRAINING_NAME, trainingName)
             startActivity(it)
         }
     }

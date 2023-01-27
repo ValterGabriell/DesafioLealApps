@@ -1,7 +1,7 @@
 package com.valtergabriel.desafiolealapps.DI
 
 
-import com.valtergabriel.desafiolealapps.repo.TrainingRepo
+import com.valtergabriel.desafiolealapps.repo.TrainingExerciseRepository
 import com.valtergabriel.desafiolealapps.repo.UserRepository
 import com.valtergabriel.desafiolealapps.viewmodel.TrainingViewModel
 import com.valtergabriel.desafiolealapps.viewmodel.UserViewModel
@@ -11,7 +11,7 @@ import org.koin.dsl.module
 
 val appModule = module {
     single { UserRepository() }
-    single { TrainingRepo() }
+    single { TrainingExerciseRepository() }
 
 }
 

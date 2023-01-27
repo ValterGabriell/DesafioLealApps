@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import com.valtergabriel.desafiolealapps.databinding.ActivityLoginBinding
+import com.valtergabriel.desafiolealapps.util.Validation
 import com.valtergabriel.desafiolealapps.viewmodel.UserViewModel
 import org.koin.android.ext.android.inject
 
@@ -16,7 +17,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -27,15 +27,22 @@ class LoginActivity : AppCompatActivity() {
         login.setOnClickListener {
             val username = binding.username.text.toString()
             val password = binding.password.text.toString()
+            if (!Validation.isEmptyField(username)
+                && !Validation.isEmptyField(password)
+                && Validation.isValidEmail(username))
+            {
+                it.visibility = View.GONE
+                loading.visibility = View.VISIBLE
+                userViewModel.signInUser(username, password, this)
+            }else{
+                showLoginFailed("Preencha corretamente todos os campos")
+            }
 
-            it.visibility = View.GONE
-            loading.visibility = View.VISIBLE
-            userViewModel.signInUser(username, password, this)
         }
 
     }
 
-    private fun showLoginFailed(@StringRes errorString: Int) {
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+    private fun showLoginFailed(error:String) {
+        Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT).show()
     }
 }

@@ -1,12 +1,10 @@
 package com.valtergabriel.desafiolealapps.ui
 
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.awesomedialog.AwesomeDialog
 import com.example.awesomedialog.body
@@ -14,13 +12,14 @@ import com.example.awesomedialog.onPositive
 import com.example.awesomedialog.title
 import com.valtergabriel.desafiolealapps.databinding.ActivityCreateTrainingBinding
 import com.valtergabriel.desafiolealapps.ui.adapter.ExerciseFirebaseAdapter
+import com.valtergabriel.desafiolealapps.util.Constants
 import com.valtergabriel.desafiolealapps.util.Constants.EXEMPLE
 import com.valtergabriel.desafiolealapps.util.Validation
 import com.valtergabriel.desafiolealapps.viewmodel.TrainingViewModel
 import org.koin.android.ext.android.inject
 
 
-class CreateTrainingActivity : AppCompatActivity() {
+class CreateAndEditTrainingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateTrainingBinding
     private lateinit var adapter: ExerciseFirebaseAdapter
@@ -37,8 +36,14 @@ class CreateTrainingActivity : AppCompatActivity() {
         val btnFirstAddTraining = binding.btnFirstAddTraining
 
 
-
+        /**
+         * Setando variaveis
+         */
         setNameFromEditText()
+
+        /**
+         * Se o usuario quiser editar o treino
+         */
         configViewsToUpdateTraining()
 
         fabCreateTraining.setOnClickListener {
@@ -48,21 +53,23 @@ class CreateTrainingActivity : AppCompatActivity() {
         }
 
         btnAddNewExercise.setOnClickListener {
-            validateIfTheresNameThatCameFromAddNewExerciseActivity()
+            validadeFieldsAndPassActivityToCreateExercises()
         }
 
         btnFirstAddTraining.setOnClickListener {
-            validateIfTheresNameThatCameFromAddNewExerciseActivity()
+            validadeFieldsAndPassActivityToCreateExercises()
         }
     }
 
     private fun configViewsToUpdateTraining() {
-        val wannaEdit = intent.extras?.get("wanna_edit") as Boolean
-        val trainingName = intent.extras?.get("training_name").toString()
+        val wannaEdit = intent.extras?.get(Constants.WANNA_EDIT) as Boolean
+        val trainingName = intent.extras?.get(Constants.STATIC_TITLE).toString()
+
         if (wannaEdit) {
             binding.txtInputObs.visibility = View.GONE
             binding.txtExercises.visibility = View.GONE
             binding.btnAddNewExercise.visibility = View.GONE
+            binding.fabCreateTraining.visibility = View.GONE
 
 
 
@@ -73,7 +80,7 @@ class CreateTrainingActivity : AppCompatActivity() {
             binding.btnDelete.apply {
                 visibility = View.VISIBLE
                 setOnClickListener {
-                    trainingViewModel.deleteTraining(trainingName, this@CreateTrainingActivity)
+                    trainingViewModel.deleteTraining(trainingName, this@CreateAndEditTrainingActivity)
                 }
             }
 
@@ -81,7 +88,7 @@ class CreateTrainingActivity : AppCompatActivity() {
                 visibility = View.VISIBLE
                 setOnClickListener {
                     val newTrainingName = binding.editUpdateName.text.toString()
-                    trainingViewModel.updateTrainingData(trainingName, newTrainingName, this@CreateTrainingActivity)
+                    trainingViewModel.updateTrainingData(trainingName, newTrainingName, this@CreateAndEditTrainingActivity)
                 }
             }
         }
@@ -95,7 +102,7 @@ class CreateTrainingActivity : AppCompatActivity() {
          * de treinos, para que possamos setar o edit text do nome do treino com o nome setado inicialmente.
          * assim, garantimos que todos os exercicios serao associados ao treino.
          */
-        intent.extras?.get("traning_name_from_last_exercise_added").toString()
+        intent.extras?.get(Constants.TRAINING_NAME_FROM_LAST_EXERCISES_ADDED).toString()
             .also { trainingName ->
                 if (trainingName != EXEMPLE) {
                     binding.txtInputObs.visibility = View.GONE
@@ -111,7 +118,7 @@ class CreateTrainingActivity : AppCompatActivity() {
 
 
                     trainingViewModel.getExercisesFromFirebase(trainingName).also {
-                        binding.nameTrainingEditText.apply {
+                        binding.nameTrainingeditText.apply {
                             setText(trainingName)
                         }
                         trainingViewModel.listExercises.observe(this) { exercises ->
@@ -128,21 +135,22 @@ class CreateTrainingActivity : AppCompatActivity() {
                         }
                     }
                 } else {
-                    binding.nameTrainingEditText.setText("")
+                    binding.nameTrainingeditText.setText("")
                 }
             }
 
     }
 
 
-    private fun validateIfTheresNameThatCameFromAddNewExerciseActivity() {
-        val trainingName = binding.nameTrainingEditText.text.toString()
+    private fun validadeFieldsAndPassActivityToCreateExercises() {
+        val trainingName = binding.nameTrainingeditText.text.toString()
         val trainingDesc = binding.obsTrainingEditText.text.toString()
+
         if (!Validation.isEmptyField(trainingName)) {
             Intent(this, AddNewExerciseActivity::class.java).also {
-                it.putExtra("training_name", trainingName)
-                it.putExtra("training_desc", trainingDesc)
-                it.putExtra("static_title", trainingName)
+                it.putExtra(Constants.TRAINING_NAME, trainingName)
+                it.putExtra(Constants.TRAINING_DESCRIPTION, trainingDesc)
+                it.putExtra(Constants.STATIC_TITLE, trainingName)
                 startActivity(it)
             }
         } else {

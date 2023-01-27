@@ -8,6 +8,7 @@ import com.valtergabriel.desafiolealapps.databinding.ActivityFormBinding
 import com.valtergabriel.desafiolealapps.dto.User
 import com.valtergabriel.desafiolealapps.util.Firebase.getAuth
 import com.valtergabriel.desafiolealapps.util.Validation.isEmptyField
+import com.valtergabriel.desafiolealapps.util.Validation.isValidEmail
 import com.valtergabriel.desafiolealapps.viewmodel.UserViewModel
 import org.koin.android.ext.android.inject
 
@@ -21,7 +22,9 @@ class FormActivity : AppCompatActivity() {
         binding = ActivityFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnSignUp2.setOnClickListener { buttonSignUp ->
+        val btnSignUp = binding.btnSignUp2
+
+        btnSignUp.setOnClickListener { buttonSignUp ->
 
             val email = binding.emailEditTextActivityForm.text.toString()
             val password = binding.passwordEditTextActivityForm.text.toString()
@@ -36,13 +39,11 @@ class FormActivity : AppCompatActivity() {
                 && !isEmptyField(height)
                 && !isEmptyField(weight)
                 && !isEmptyField(expectedWeight)
+                && isValidEmail(email)
             ) {
                 buttonSignUp.visibility = View.GONE
                 binding.progressBar.visibility = View.VISIBLE
-
-                signUp(email, password, age, height, weight, expectedWeight).also {
-
-                }
+                signUp(email, password, age, height, weight, expectedWeight)
             } else {
                 Toast.makeText(this, "Preencha corretamente todos os campos", Toast.LENGTH_SHORT)
                     .show()
@@ -70,9 +71,4 @@ class FormActivity : AppCompatActivity() {
         userViewModel.signUpUser(user, this)
     }
 
-    private fun signIn(email: String, password: String) {
-        getAuth()
-
-
-    }
 }

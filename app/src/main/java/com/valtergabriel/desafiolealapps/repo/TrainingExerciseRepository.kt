@@ -12,17 +12,18 @@ import com.squareup.picasso.Picasso
 import com.valtergabriel.desafiolealapps.R
 import com.valtergabriel.desafiolealapps.dto.Exercises
 import com.valtergabriel.desafiolealapps.dto.Training
-import com.valtergabriel.desafiolealapps.ui.CreateTrainingActivity
+import com.valtergabriel.desafiolealapps.ui.CreateAndEditTrainingActivity
 import com.valtergabriel.desafiolealapps.ui.FeedActivity
 import com.valtergabriel.desafiolealapps.util.Constants.COLLECTION_EXERCISES
 import com.valtergabriel.desafiolealapps.util.Constants.COLLECTION_TRAINING
 import com.valtergabriel.desafiolealapps.util.Constants.COLLECTION_USER_NAME
 import com.valtergabriel.desafiolealapps.util.Constants.PATH_PATTERN
+import com.valtergabriel.desafiolealapps.util.Constants.TRAINING_NAME_FROM_LAST_EXERCISES_ADDED
+import com.valtergabriel.desafiolealapps.util.Constants.WANNA_EDIT
 import com.valtergabriel.desafiolealapps.util.Firebase
-import java.time.LocalDate
 import java.time.LocalDateTime
 
-class TrainingRepo {
+class TrainingExerciseRepository {
 
 
     suspend fun createNewTraining(training: Training, context: Context) {
@@ -52,25 +53,81 @@ class TrainingRepo {
             Firebase.getFirestore().collection(COLLECTION_USER_NAME)
                 .document(userAuthenticated.uid)
                 .collection(COLLECTION_TRAINING)
-                .document(training.title.toString())
+                .document(training.staticTitle.toString())
                 .set(trainingData)
 
             Firebase.getFirestore().collection(COLLECTION_USER_NAME)
                 .document(userAuthenticated.uid)
                 .collection(COLLECTION_TRAINING)
-                .document(training.title.toString())
+                .document(training.staticTitle.toString())
                 .collection(COLLECTION_EXERCISES)
                 .document(training.exercise!!.name.toString())
                 .set(exercisesData)
                 .also {
-                    Intent(context, CreateTrainingActivity::class.java).also {
-                        it.putExtra("traning_name_from_last_exercise_added", training.title)
-                        it.putExtra("wanna_edit", false)
+                    Intent(context, CreateAndEditTrainingActivity::class.java).also {
+                        it.putExtra(TRAINING_NAME_FROM_LAST_EXERCISES_ADDED, training.staticTitle)
+                        it.putExtra(WANNA_EDIT, false)
                         context.startActivity(it)
                     }
                 }
 
 
+        }
+    }
+
+    suspend fun createNewExercise(exercises: Exercises, traningName: String, context: Context) {
+
+        val userAuthenticated = Firebase.getAuth().currentUser
+        if (userAuthenticated != null) {
+
+            val exercisesData = hashMapOf(
+                "name" to exercises.name,
+                "title" to exercises.title,
+                "obs" to exercises.obs,
+                "type" to "was created",
+                "creationDay" to exercises.name,
+                "duration" to exercises.duration
+            )
+
+            Firebase.getFirestore().collection(COLLECTION_USER_NAME)
+                .document(userAuthenticated.uid)
+                .collection(COLLECTION_TRAINING)
+                .document(traningName)
+                .collection(COLLECTION_EXERCISES)
+                .document(exercises.name.toString())
+                .set(exercisesData)
+                .also {
+                    Intent(context, CreateAndEditTrainingActivity::class.java).also {
+                        it.putExtra(TRAINING_NAME_FROM_LAST_EXERCISES_ADDED, traningName)
+                        it.putExtra(WANNA_EDIT, false)
+                        context.startActivity(it)
+                    }
+                }
+
+
+        }
+    }
+
+    suspend fun updateDuration(
+        duration: String,
+        context: Context,
+        staticTitle: String,
+        exerciseId: Long
+    ) {
+
+        val userAuthenticated = Firebase.getAuth().currentUser
+        if (userAuthenticated != null) {
+            Firebase.getFirestore().collection(COLLECTION_USER_NAME)
+                .document(userAuthenticated.uid)
+                .collection(COLLECTION_TRAINING)
+                .document(staticTitle)
+                .collection(COLLECTION_EXERCISES)
+                .document(exerciseId.toString())
+                .update("duration", duration).addOnSuccessListener {
+                    Intent(context, FeedActivity::class.java).also {
+                        context.startActivity(it)
+                    }
+                }
         }
     }
 
@@ -144,11 +201,7 @@ class TrainingRepo {
         if (userAuthenticated != null) {
 
             savePicturesOnStorage(userAuthenticated, traningName, uriBefore, uriAfter).also {
-                updateTraningDataUriOnFirestore(userAuthenticated, traningName).also {
-                    Intent(context, FeedActivity::class.java).also {
-                        context.startActivity(it)
-                    }
-                }
+                updateTraningDataUriOnFirestore(userAuthenticated, traningName, context)
             }
         }
     }
@@ -262,10 +315,36 @@ class TrainingRepo {
 
 
             Firebase.getStorage().reference
-                .child("images/${userAuthenticated.uid}/$traningName/after")
-                .child("images/${userAuthenticated.uid}/$traningName/before")
+                .child("images/${userAuthenticated.uid}/$traningName")
                 .delete()
 
+        }
+
+    }
+
+    fun deleteExercise(traningName: String, exerciseId: String, context: Context) {
+        val userAuthenticated = Firebase.getAuth().currentUser
+        if (userAuthenticated != null) {
+
+            Firebase.getFirestore().collection(COLLECTION_USER_NAME)
+                .document(userAuthenticated.uid)
+                .collection(COLLECTION_TRAINING)
+                .document(traningName)
+                .collection(COLLECTION_EXERCISES)
+                .document(exerciseId)
+                .delete()
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Exercicio deletado com sucesso", Toast.LENGTH_SHORT)
+                        .show()
+                    Intent(context, FeedActivity::class.java).also {
+                        context.startActivity(it)
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(context, "Falha ao deletar", Toast.LENGTH_SHORT).show()
+                    Intent(context, FeedActivity::class.java).also {
+                        context.startActivity(it)
+                    }
+                }
         }
 
     }
@@ -273,25 +352,43 @@ class TrainingRepo {
 
     private fun updateTraningDataUriOnFirestore(
         userAuthenticated: FirebaseUser,
-        traningName: String
+        traningName: String,
+        context: Context
     ) {
         val trainingRef = Firebase.getFirestore().collection(COLLECTION_USER_NAME)
             .document(userAuthenticated.uid)
             .collection(COLLECTION_TRAINING)
             .document(traningName)
 
+
+
         Firebase.getStorage().reference
             .child("images/${userAuthenticated.uid}")
             .child("$traningName/after")
             .downloadUrl.addOnSuccessListener { uri ->
-                Log.i("TAG", uri.toString())
+
                 trainingRef.update(
                     "imageAfter",
                     uri.toString()
-                )
+                ).addOnSuccessListener {
+                    Intent(context, FeedActivity::class.java).also {
+                        context.startActivity(it)
+                    }
+                    Toast.makeText(context, "Foto salva com sucesso", Toast.LENGTH_SHORT).show()
+                }.addOnFailureListener {
+                    Intent(context, FeedActivity::class.java).also {
+                        context.startActivity(it)
+                    }
+                    Toast.makeText(context, "Erro ao salvar foto, tente novamente", Toast.LENGTH_SHORT).show()
+                }
+
+
+
             }.addOnFailureListener {
                 Log.i("TAG", it.message.toString())
             }
+
+
 
         Firebase.getStorage().reference
             .child("images/${userAuthenticated.uid}")

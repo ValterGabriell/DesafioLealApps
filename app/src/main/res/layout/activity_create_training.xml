@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CreateTrainingActivity">
+    tools:context=".ui.CreateAndEditTrainingActivity">
 
     <TextView
         android:id="@+id/txtExercises"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Exercicios"
+        android:text="Exercicios adicionados"
         android:textColor="@color/blue"
-        android:textSize="34sp"
+        android:textSize="24sp"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/guideline22"
         app:layout_constraintEnd_toStartOf="@+id/guideline21"
@@ -41,7 +41,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline28">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nameTrainingEditText"
+            android:id="@+id/nameTrainingeditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLength="25"
@@ -105,8 +105,9 @@
         android:id="@+id/btnAddNewExercise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:src="@android:drawable/ic_menu_add"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/guideline22"
@@ -172,10 +173,13 @@
 
     <EditText
         android:id="@+id/editUpdateName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
+        android:hint="Defina um novo nome para seu treino"
         android:inputType="textPersonName"
         android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/guideline21"
@@ -198,7 +202,7 @@
         android:id="@+id/btnDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/orange_low"
+        android:backgroundTint="@android:color/holo_red_light"
         android:text="Deletar treino"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/guideline41"

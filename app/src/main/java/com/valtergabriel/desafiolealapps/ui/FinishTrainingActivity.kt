@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.valtergabriel.desafiolealapps.R
 import com.valtergabriel.desafiolealapps.databinding.ActivityFinishTrainingBinding
+import com.valtergabriel.desafiolealapps.util.Constants
 import com.valtergabriel.desafiolealapps.viewmodel.TrainingViewModel
 import org.koin.android.ext.android.inject
 import pub.devrel.easypermissions.AppSettingsDialog
@@ -28,8 +29,8 @@ class FinishTrainingActivity : AppCompatActivity(), EasyPermissions.PermissionCa
         binding = ActivityFinishTrainingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val trainingName = intent.extras?.get("training_name").toString()
-        val isJustSee = intent.extras?.get("is_just_see") as Boolean
+        val trainingName = intent.extras?.get(Constants.TRAINING_NAME).toString()
+        val isJustSee = intent.extras?.get(Constants.JUST_WANNA_SEE) as Boolean
 
         if (isJustSee) {
             trainingViewModel.retriveImages(trainingName, binding.imgBefore, binding.imgAfter, this)
@@ -87,6 +88,8 @@ class FinishTrainingActivity : AppCompatActivity(), EasyPermissions.PermissionCa
          * Salvando as fotos no storage
          */
         binding.btnSaveImages.setOnClickListener {
+            binding.progressBar4.visibility = View.VISIBLE
+            it.visibility = View.GONE
             trainingViewModel.finishTraining(trainingName, uriBefore!!, uriAfter!!, this)
         }
 

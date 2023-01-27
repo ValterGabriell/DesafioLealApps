@@ -8,10 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.valtergabriel.desafiolealapps.dto.Exercises
 import com.valtergabriel.desafiolealapps.dto.Training
-import com.valtergabriel.desafiolealapps.repo.TrainingRepo
+import com.valtergabriel.desafiolealapps.repo.TrainingExerciseRepository
 import kotlinx.coroutines.launch
 
-class TrainingViewModel(private val trainingRepo: TrainingRepo) : ViewModel() {
+class TrainingViewModel(private val trainingExerciseRepository: TrainingExerciseRepository) : ViewModel() {
 
     val listExercises = MutableLiveData<ArrayList<Exercises>>()
     val listTraining = MutableLiveData<ArrayList<Training>>()
@@ -19,25 +19,37 @@ class TrainingViewModel(private val trainingRepo: TrainingRepo) : ViewModel() {
 
     fun createNewTrainingOnFirebase(training: Training, context: Context) {
         viewModelScope.launch {
-            trainingRepo.createNewTraining(training, context)
+            trainingExerciseRepository.createNewTraining(training, context)
+        }
+    }
+
+    fun updateDuration(duration:String, context:Context, staticTitle:String, exerciseId:Long) {
+        viewModelScope.launch {
+            trainingExerciseRepository.updateDuration(duration, context, staticTitle, exerciseId)
+        }
+    }
+
+    fun createNewExercise(exercises: Exercises,trainingName: String, context: Context) {
+        viewModelScope.launch {
+            trainingExerciseRepository.createNewExercise(exercises, trainingName, context)
         }
     }
 
     fun getExercisesFromFirebase(trainingName: String) {
         viewModelScope.launch {
-            trainingRepo.getExercisesFromFirebase(trainingName, listExercises)
+            trainingExerciseRepository.getExercisesFromFirebase(trainingName, listExercises)
         }
     }
 
     fun getTraningsFromFirebase() {
         viewModelScope.launch {
-            trainingRepo.getTraningsFromFirebase(listTraining)
+            trainingExerciseRepository.getTraningsFromFirebase(listTraining)
         }
     }
 
     fun finishTraining(trainingName: String, imgBefore: Uri, uriAfter: Uri, context: Context) {
         viewModelScope.launch {
-            trainingRepo.finishTraining(trainingName, imgBefore, uriAfter, context)
+            trainingExerciseRepository.finishTraining(trainingName, imgBefore, uriAfter, context)
         }
     }
 
@@ -48,7 +60,7 @@ class TrainingViewModel(private val trainingRepo: TrainingRepo) : ViewModel() {
         context: Context
     ) {
         viewModelScope.launch {
-            trainingRepo.retriveImages(trainingName, imgBefore, imgAfter, context)
+            trainingExerciseRepository.retriveImages(trainingName, imgBefore, imgAfter, context)
         }
     }
 
@@ -58,7 +70,7 @@ class TrainingViewModel(private val trainingRepo: TrainingRepo) : ViewModel() {
         context: Context
     ) {
         viewModelScope.launch {
-            trainingRepo.updateTrainingData(trainingName, newTrainingName, context)
+            trainingExerciseRepository.updateTrainingData(trainingName, newTrainingName, context)
         }
     }
 
@@ -68,7 +80,19 @@ class TrainingViewModel(private val trainingRepo: TrainingRepo) : ViewModel() {
         context: Context
     ) {
         viewModelScope.launch {
-            trainingRepo.deleteTraining(trainingName, context)
+            trainingExerciseRepository.deleteTraining(trainingName, context)
+        }
+    }
+
+
+
+    fun deleteExercise(
+        trainingName: String,
+        exerciseId: String,
+        context: Context
+    ) {
+        viewModelScope.launch {
+            trainingExerciseRepository.deleteExercise(trainingName, exerciseId, context)
         }
     }
 

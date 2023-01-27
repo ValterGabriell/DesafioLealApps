@@ -16,7 +16,6 @@ class ExerciseFirebaseAdapter(private val exerciseList: List<Exercises>) :
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(exercise: Exercises) {
             itemView.findViewById<TextView>(R.id.txt_title_exercise) .text = exercise.title
-            itemView.findViewById<TextView>(R.id.txt_duration).text = exercise.duration + " minutos"
         }
     }
 

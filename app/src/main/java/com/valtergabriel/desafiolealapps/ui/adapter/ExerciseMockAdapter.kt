@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.valtergabriel.desafiolealapps.R
-import com.valtergabriel.desafiolealapps.mock.MockExercise
+import com.valtergabriel.desafiolealapps.dto.MockExercise
 
 class ExerciseMockAdapter(private val exerciseList: List<MockExercise>) :
     RecyclerView.Adapter<ExerciseMockAdapter.MyViewHolder>() {

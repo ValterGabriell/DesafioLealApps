@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.FeedActivity">
 
+    <ImageView
+        android:id="@+id/btnLogout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/guideline18"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline19"
+        app:layout_constraintTop_toTopOf="@+id/guideline17"
+        app:srcCompat="@drawable/ic_baseline_login_24" />
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
