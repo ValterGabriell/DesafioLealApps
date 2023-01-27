@@ -36,9 +36,16 @@
    <div align="center">
 <img src="https://user-images.githubusercontent.com/63808405/215208921-93c7cf20-2be3-4564-a0ce-ab2fad0f18df.jpeg" width = "250px">
 <img src="https://user-images.githubusercontent.com/63808405/215208914-cfa217bb-e9de-499f-83a6-36cb2e107652.jpeg" width = "250px">
-
+  </div>
   
    <p>Além disso, voce pode setar fotos para o antes e depois do seu treino.</p></br>
+   
+<div align="center">
+<img src="https://user-images.githubusercontent.com/63808405/215209352-ea738894-fbd3-4ae5-996f-9402073578b5.jpeg" width = "250px">
+<img src="https://user-images.githubusercontent.com/63808405/215209344-8abcf483-cf51-4dc8-83c6-ef6cc466924f.jpeg" width = "250px">
+  </div>
+  
+
    
 <h1>Tecnologias usadas</h1>
 - Android Studio</br>
