@@ -103,7 +103,7 @@ class AddNewExerciseActivity : AppCompatActivity() {
         trainingName: String
     ) {
         adapterAbdomen = ExerciseMockAdapter(listBicepis)
-        binding.recyclerAbdomen.adapter = adapterBicepis
+        binding.recyclerAbdomen.adapter = adapterAbdomen
         binding.recyclerAbdomen.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
@@ -131,7 +131,7 @@ class AddNewExerciseActivity : AppCompatActivity() {
         trainingName: String
     ) {
         adapterGetFit = ExerciseMockAdapter(listBicepis)
-        binding.recyclerGetFit.adapter = adapterBicepis
+        binding.recyclerGetFit.adapter = adapterGetFit
         binding.recyclerGetFit.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 

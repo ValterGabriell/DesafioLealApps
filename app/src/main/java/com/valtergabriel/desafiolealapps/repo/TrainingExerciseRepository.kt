@@ -200,7 +200,7 @@ class TrainingExerciseRepository {
         val userAuthenticated = Firebase.getAuth().currentUser
         if (userAuthenticated != null) {
 
-            savePicturesOnStorage(userAuthenticated, traningName, uriBefore, uriAfter).also {
+            savePicturesOnStorage(userAuthenticated, traningName, uriBefore, uriAfter, context).also {
                 updateTraningDataUriOnFirestore(userAuthenticated, traningName, context)
             }
         }
@@ -379,13 +379,18 @@ class TrainingExerciseRepository {
                     Intent(context, FeedActivity::class.java).also {
                         context.startActivity(it)
                     }
-                    Toast.makeText(context, "Erro ao salvar foto, tente novamente", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Erro ao salvar foto, tente novamente",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-
-
-
             }.addOnFailureListener {
-                Log.i("TAG", it.message.toString())
+                Intent(context, FeedActivity::class.java).also {
+                    context.startActivity(it)
+                }
+                Toast.makeText(context, "Erro ao salvar foto, tente novamente", Toast.LENGTH_SHORT)
+                    .show()
             }
 
 
@@ -398,9 +403,21 @@ class TrainingExerciseRepository {
                 trainingRef.update(
                     "imageBefore",
                     uri.toString()
-                )
+                ).addOnSuccessListener {
+                    Toast.makeText(context, "Foto salva com sucesso", Toast.LENGTH_SHORT).show()
+                }.addOnFailureListener {
+                    Toast.makeText(
+                        context,
+                        "Erro ao salvar foto, tente novamente",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }.addOnFailureListener {
-                Log.i("TAG", it.message.toString())
+                Intent(context, FeedActivity::class.java).also {
+                    context.startActivity(it)
+                }
+                Toast.makeText(context, "Erro ao salvar foto, tente novamente", Toast.LENGTH_SHORT)
+                    .show()
             }
 
     }
@@ -410,7 +427,8 @@ class TrainingExerciseRepository {
         userAuthenticated: FirebaseUser,
         traningName: String,
         uriBefore: Uri,
-        uriAfter: Uri
+        uriAfter: Uri,
+        context: Context
     ) {
 
 
@@ -421,11 +439,26 @@ class TrainingExerciseRepository {
         ref
             .child("before")
             .putFile(uriBefore)
+            .addOnFailureListener {
+                Intent(context, FeedActivity::class.java).also {
+                    context.startActivity(it)
+                }
+                Toast.makeText(context, "Erro ao salvar foto, tente novamente", Toast.LENGTH_SHORT)
+                    .show()
+
+            }
 
         ref
             .child("after")
             .putFile(uriAfter)
+            .addOnFailureListener {
+                Intent(context, FeedActivity::class.java).also {
+                    context.startActivity(it)
+                }
+                Toast.makeText(context, "Erro ao salvar foto, tente novamente", Toast.LENGTH_SHORT)
+                    .show()
 
+            }
 
     }
 
