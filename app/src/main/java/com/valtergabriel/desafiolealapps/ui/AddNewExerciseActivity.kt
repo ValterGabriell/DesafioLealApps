@@ -107,12 +107,12 @@ class AddNewExerciseActivity : AppCompatActivity() {
         binding.recyclerAbdomen.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        adapterAbdomen.setOnClick = { name, title, duration, type, description ->
+        adapterAbdomen.setOnClick = { name, title, duration, type, exeDescription ->
             Intent(this@AddNewExerciseActivity, VizualizeExercise::class.java).also {
                 it.putExtra(EXERCISE_NAME, title)
                 it.putExtra(EXERCISE_NAME_ID, name)
                 it.putExtra(EXERCISE_DURATION, duration)
-                it.putExtra(EXERCISE_DESCRIPTION, description)
+                it.putExtra(EXERCISE_DESCRIPTION, exeDescription)
                 it.putExtra(STATIC_TITLE, staticTitle)
                 it.putExtra(EXERCISE_TYPE, type)
                 it.putExtra(TRAINING_NAME, trainingName)

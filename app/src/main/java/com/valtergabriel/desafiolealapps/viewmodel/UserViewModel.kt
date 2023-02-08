@@ -1,6 +1,8 @@
 package com.valtergabriel.desafiolealapps.viewmodel
 
 import android.content.Context
+import android.widget.Button
+import android.widget.ProgressBar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.valtergabriel.desafiolealapps.dto.User
@@ -15,9 +17,9 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
        }
     }
 
-    fun signInUser(email:String, password:String, context:Context) {
+    fun signInUser(email:String, password:String, context:Context, btn:Button, progress:ProgressBar) {
         viewModelScope.launch {
-            userRepository.signInUser(email, password, context)
+            userRepository.signInUser(email, password, context, btn, progress)
         }
     }
 

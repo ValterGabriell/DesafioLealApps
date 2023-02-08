@@ -29,12 +29,12 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.password.text.toString()
             if (!Validation.isEmptyField(username)
                 && !Validation.isEmptyField(password)
-                && Validation.isValidEmail(username))
-            {
+                && Validation.isValidEmail(username)
+            ) {
                 it.visibility = View.GONE
                 loading.visibility = View.VISIBLE
-                userViewModel.signInUser(username, password, this)
-            }else{
+                userViewModel.signInUser(username, password, this, login, loading)
+            } else {
                 showLoginFailed("Preencha corretamente todos os campos")
             }
 
@@ -42,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun showLoginFailed(error:String) {
+    private fun showLoginFailed(error: String) {
         Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT).show()
     }
 }

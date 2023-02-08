@@ -72,8 +72,8 @@ class VizualizeTraining : AppCompatActivity() {
                 .body("Salve suas fotos de antes e depois do treino")
                 .onPositive("Vamos lá!") {
                     Intent(this, FinishTrainingActivity::class.java).also {
-                        it.putExtra("is_just_see", false)
-                        it.putExtra("training_name", staticTitle)
+                        it.putExtra(JUST_WANNA_SEE, false)
+                        it.putExtra(STATIC_TITLE, staticTitle)
                         startActivity(it)
                     }
                 }

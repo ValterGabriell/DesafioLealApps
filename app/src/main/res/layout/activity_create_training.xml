@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:drawableRight="@android:drawable/ic_menu_add"
+        android:drawablePadding="8dp"
         android:text="Adicionar exercicíos"
         android:textColor="@color/blue"
         android:textSize="24sp"
@@ -137,12 +138,14 @@
         android:id="@+id/btnFirstAddTraining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
         android:text="Adicionar treinos"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/guideline41"
         app:layout_constraintEnd_toStartOf="@+id/guideline21"
-        app:layout_constraintStart_toStartOf="@+id/guideline16" />
+        app:layout_constraintStart_toStartOf="@+id/guideline16"
+        app:layout_constraintTop_toBottomOf="@+id/txtInputObs" />
 
     <TextView
         android:id="@+id/txtHeader"

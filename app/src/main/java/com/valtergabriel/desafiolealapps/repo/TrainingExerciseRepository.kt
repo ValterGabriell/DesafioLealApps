@@ -233,8 +233,8 @@ class TrainingExerciseRepository {
                             "Ainda nao foi setado fotos para esse treino",
                             Toast.LENGTH_SHORT
                         ).show()
-                        Intent(context, FeedActivity::class.java).also {
-                            context.startActivity(it)
+                        Intent(context, FeedActivity::class.java).also {intent ->
+                            context.startActivity(intent)
                         }
                     }
                 }
@@ -372,7 +372,6 @@ class TrainingExerciseRepository {
                     Intent(context, FeedActivity::class.java).also {
                         context.startActivity(it)
                     }
-                    Toast.makeText(context, "Foto salva com sucesso", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -412,12 +411,6 @@ class TrainingExerciseRepository {
             .addOnSuccessListener {
                 updateTraningDataUriOnFirestore(userAuthenticated, traningName, context)
             }
-            .addOnFailureListener {
-                Toast.makeText(context, "Erro sao salvar a foto", Toast.LENGTH_SHORT).show()
-                Intent(context, FeedActivity::class.java).also {
-                    context.startActivity(it)
-                }
-            }
 
         ref
             .child("after")
@@ -425,13 +418,6 @@ class TrainingExerciseRepository {
             .addOnSuccessListener {
                 updateTraningDataUriOnFirestore(userAuthenticated, traningName, context)
             }
-            .addOnFailureListener {
-                Toast.makeText(context, "Erro sao salvar a foto", Toast.LENGTH_SHORT).show()
-                Intent(context, FeedActivity::class.java).also {
-                    context.startActivity(it)
-                }
-            }
-
     }
 
 
