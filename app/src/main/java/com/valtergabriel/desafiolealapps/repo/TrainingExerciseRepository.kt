@@ -26,7 +26,7 @@ import java.time.LocalDateTime
 class TrainingExerciseRepository {
 
 
-    suspend fun createNewTraining(training: Training, context: Context) {
+    suspend fun addExerciseFromTrainingAndCreateTrainingOnFirebaseIfNotExists(training: Training, context: Context) {
 
         val userAuthenticated = Firebase.getAuth().currentUser
         if (userAuthenticated != null) {
@@ -409,15 +409,15 @@ class TrainingExerciseRepository {
             .child("before")
             .putFile(uriBefore)
             .addOnSuccessListener {
-                updateTraningDataUriOnFirestore(userAuthenticated, traningName, context)
+                ref
+                    .child("after")
+                    .putFile(uriAfter)
+                    .addOnSuccessListener {
+                        updateTraningDataUriOnFirestore(userAuthenticated, traningName, context)
+                    }
             }
 
-        ref
-            .child("after")
-            .putFile(uriAfter)
-            .addOnSuccessListener {
-                updateTraningDataUriOnFirestore(userAuthenticated, traningName, context)
-            }
+
     }
 
 

@@ -26,7 +26,7 @@ class UserRepository {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val userAuthenticated = Firebase.getAuth().currentUser
-                    val userData = createUserData(userToBeCreated, userAuthenticated)
+                    val userData = createUserData(userToBeCreated, userAuthenticated, password)
 
                     Firebase.getFirestore().collection(COLLECTION_USER_NAME)
                         .document(userAuthenticated?.uid.toString())
@@ -43,7 +43,8 @@ class UserRepository {
 
     private fun createUserData(
         user: User,
-        userAuthenticated: FirebaseUser?
+        userAuthenticated: FirebaseUser?,
+        passwordEcrypted:String
     ): HashMap<String, String?> {
         return hashMapOf(
             "email" to userAuthenticated?.email,
@@ -52,7 +53,8 @@ class UserRepository {
             "age" to user.age,
             "weight" to user.weight,
             "expectedWeight" to user.expectedWeight,
-            "height" to user.height
+            "height" to user.height,
+            "password" to passwordEcrypted
         )
     }
 

@@ -39,12 +39,6 @@ class FeedActivity : AppCompatActivity() {
 
         btnAddTraining.setOnClickListener {
             Intent(this, CreateAndEditTrainingActivity::class.java).also {
-                /**
-                 * Passa-se esse parametro estatico para o outro lado, com a mesma chave, para que se possa
-                 * inserir um valor vazio no edit text e também inserir o valor setado pelo usuário quando um
-                 * exercicio é adicionado ao treino. Caso contrario, o valor do edit text teria que ser deletado
-                 * sempre que fosse escrever nele.
-                 */
                 it.putExtra(TRAINING_NAME_FROM_LAST_EXERCISES_ADDED, EXEMPLE)
                 it.putExtra(WANNA_EDIT, false)
                 startActivity(it)
@@ -53,8 +47,8 @@ class FeedActivity : AppCompatActivity() {
 
         txtMyTraining.setOnClickListener {
             Intent(this, CreateAndEditTrainingActivity::class.java).also {
-                it.putExtra("traning_name_from_last_exercise_added", "")
-                it.putExtra("wanna_edit", false)
+                it.putExtra(TRAINING_NAME_FROM_LAST_EXERCISES_ADDED, "")
+                it.putExtra(WANNA_EDIT, false)
                 startActivity(it)
             }
         }
@@ -73,10 +67,10 @@ class FeedActivity : AppCompatActivity() {
                 adapter = FeedAdapter(trainings)
                 feedRecyclerView.adapter = adapter
                 feedRecyclerView.layoutManager = LinearLayoutManager(this)
-                adapter.setOnClick = { staticTitle, title, desc ->
+                adapter.setOnClick = { staticTitle, title, description ->
                     Intent(this, VizualizeTraining::class.java).also { intent ->
                         intent.putExtra(TRAINING_NAME_FROM_FEED_SCREEN, title)
-                        intent.putExtra(TRAINING_DESCRIPTION_FROM_FEED_SCREEN, desc)
+                        intent.putExtra(TRAINING_DESCRIPTION_FROM_FEED_SCREEN, description)
                         intent.putExtra(TRAINING_STATIC_NAME_FROM_FEED_SCREEN, staticTitle)
                         startActivity(intent)
                     }

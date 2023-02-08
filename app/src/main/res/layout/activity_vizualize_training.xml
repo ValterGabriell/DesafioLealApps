@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/ic_baseline_library_add_24" />
 
     <ImageView
-        android:id="@+id/imageButton"
+        android:id="@+id/img_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -41,7 +41,7 @@
         android:scaleType="centerInside"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/guideline37"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintEnd_toStartOf="@+id/img_button"
         app:layout_constraintStart_toStartOf="@+id/guideline43"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"

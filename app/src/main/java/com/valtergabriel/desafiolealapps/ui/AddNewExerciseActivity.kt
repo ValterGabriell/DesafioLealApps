@@ -6,19 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.valtergabriel.desafiolealapps.R
 import com.valtergabriel.desafiolealapps.databinding.ActivityAddNewExerciseBinding
+import com.valtergabriel.desafiolealapps.dto.DataFromRecycler
 import com.valtergabriel.desafiolealapps.dto.MockExercise
 import com.valtergabriel.desafiolealapps.ui.adapter.ExerciseMockAdapter
 import com.valtergabriel.desafiolealapps.util.Constants
-import com.valtergabriel.desafiolealapps.util.Constants.EXERCISE_DESCRIPTION
-import com.valtergabriel.desafiolealapps.util.Constants.EXERCISE_DURATION
-import com.valtergabriel.desafiolealapps.util.Constants.EXERCISE_NAME
-import com.valtergabriel.desafiolealapps.util.Constants.EXERCISE_NAME_ID
-import com.valtergabriel.desafiolealapps.util.Constants.EXERCISE_TYPE
-import com.valtergabriel.desafiolealapps.util.Constants.STATIC_TITLE
-import com.valtergabriel.desafiolealapps.util.Constants.TRAINING_DESCRIPTION
-import com.valtergabriel.desafiolealapps.util.Constants.TRAINING_NAME
-import com.valtergabriel.desafiolealapps.util.Constants.TRAINING_NAME_ID
-import com.valtergabriel.desafiolealapps.util.Constants.WANNA_EDIT
+import com.valtergabriel.desafiolealapps.util.Constants.DATA
 
 class AddNewExerciseActivity : AppCompatActivity() {
 
@@ -31,15 +23,16 @@ class AddNewExerciseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_new_exercise)
-
         binding = ActivityAddNewExerciseBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val btnCreateOnwExercise = binding.btnCreateOnwExercise
 
         val trainingName = intent.extras?.get(Constants.TRAINING_NAME).toString()
         val trainingDesc = intent.extras?.get(Constants.TRAINING_DESCRIPTION).toString()
         val staticTitle = intent.extras?.get(Constants.STATIC_TITLE).toString()
 
-        binding.btnCreateOnwExercise.setOnClickListener {
+        btnCreateOnwExercise.setOnClickListener {
             createOwnExercise(staticTitle)
         }
 
@@ -62,7 +55,7 @@ class AddNewExerciseActivity : AppCompatActivity() {
     }
 
     private fun createOwnExercise(staticTitle: String) {
-        Intent(this@AddNewExerciseActivity, CreateExerciseActivity::class.java).also {
+        Intent(this@AddNewExerciseActivity, CreateOnwExerciseActivity::class.java).also {
             it.putExtra(Constants.STATIC_TITLE, staticTitle)
             startActivity(it)
         }
@@ -81,16 +74,20 @@ class AddNewExerciseActivity : AppCompatActivity() {
 
         adapterBicepis.setOnClick = { name, title, duration, type, description ->
             Intent(this@AddNewExerciseActivity, VizualizeExercise::class.java).also {
-                it.putExtra(EXERCISE_NAME, title)
-                it.putExtra(EXERCISE_NAME_ID, name)
-                it.putExtra(EXERCISE_DURATION, duration)
-                it.putExtra(EXERCISE_DESCRIPTION, description)
-                it.putExtra(STATIC_TITLE, staticTitle)
-                it.putExtra(EXERCISE_TYPE, type)
-                it.putExtra(TRAINING_NAME, trainingName)
-                it.putExtra(TRAINING_DESCRIPTION, trainingDesc)
-                it.putExtra(TRAINING_NAME_ID, System.currentTimeMillis())
-                it.putExtra(WANNA_EDIT, false)
+                val dataFromRecycler = DataFromRecycler()
+                dataFromRecycler.apply {
+                    this.title = title
+                    this.name = name
+                    this.duration = duration
+                    this.description = description
+                    this.staticTitle = staticTitle
+                    this.type = type
+                    this.trainingName = trainingName
+                    this.trainingDesc = trainingDesc
+                    this.trainingId = System.currentTimeMillis()
+                    this.wannaEdit = false
+                }
+                it.putExtra(DATA, dataFromRecycler)
                 startActivity(it)
             }
         }
@@ -109,16 +106,20 @@ class AddNewExerciseActivity : AppCompatActivity() {
 
         adapterAbdomen.setOnClick = { name, title, duration, type, exeDescription ->
             Intent(this@AddNewExerciseActivity, VizualizeExercise::class.java).also {
-                it.putExtra(EXERCISE_NAME, title)
-                it.putExtra(EXERCISE_NAME_ID, name)
-                it.putExtra(EXERCISE_DURATION, duration)
-                it.putExtra(EXERCISE_DESCRIPTION, exeDescription)
-                it.putExtra(STATIC_TITLE, staticTitle)
-                it.putExtra(EXERCISE_TYPE, type)
-                it.putExtra(TRAINING_NAME, trainingName)
-                it.putExtra(TRAINING_DESCRIPTION, trainingDesc)
-                it.putExtra(TRAINING_NAME_ID, System.currentTimeMillis())
-                it.putExtra(WANNA_EDIT, false)
+                val dataFromRecycler = DataFromRecycler()
+                dataFromRecycler.apply {
+                    this.title = title
+                    this.name = name
+                    this.duration = duration
+                    this.description = description
+                    this.staticTitle = staticTitle
+                    this.type = type
+                    this.trainingName = trainingName
+                    this.trainingDesc = trainingDesc
+                    this.trainingId = System.currentTimeMillis()
+                    this.wannaEdit = false
+                }
+                it.putExtra(DATA, dataFromRecycler)
                 startActivity(it)
             }
         }
@@ -137,16 +138,21 @@ class AddNewExerciseActivity : AppCompatActivity() {
 
         adapterGetFit.setOnClick = { name, title, duration, type, description ->
             Intent(this@AddNewExerciseActivity, VizualizeExercise::class.java).also {
-                it.putExtra(EXERCISE_NAME, title)
-                it.putExtra(EXERCISE_NAME_ID, name)
-                it.putExtra(EXERCISE_DURATION, duration)
-                it.putExtra(EXERCISE_DESCRIPTION, description)
-                it.putExtra(STATIC_TITLE, staticTitle)
-                it.putExtra(EXERCISE_TYPE, type)
-                it.putExtra(TRAINING_NAME, trainingName)
-                it.putExtra(TRAINING_DESCRIPTION, trainingDesc)
-                it.putExtra(TRAINING_NAME_ID, System.currentTimeMillis())
-                it.putExtra(WANNA_EDIT, false)
+
+                val dataFromRecycler = DataFromRecycler()
+                dataFromRecycler.apply {
+                    this.title = title
+                    this.name = name
+                    this.duration = duration
+                    this.description = description
+                    this.staticTitle = staticTitle
+                    this.type = type
+                    this.trainingName = trainingName
+                    this.trainingDesc = trainingDesc
+                    this.trainingId = System.currentTimeMillis()
+                    this.wannaEdit = false
+                }
+                it.putExtra(DATA, dataFromRecycler)
                 startActivity(it)
             }
         }

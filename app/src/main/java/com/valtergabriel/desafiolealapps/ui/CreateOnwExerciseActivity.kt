@@ -13,7 +13,7 @@ import com.valtergabriel.desafiolealapps.util.Validation
 import com.valtergabriel.desafiolealapps.viewmodel.TrainingViewModel
 import org.koin.android.ext.android.inject
 
-class CreateExerciseActivity : AppCompatActivity() {
+class CreateOnwExerciseActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateExerciseBinding
     private val trainingViewModel by inject<TrainingViewModel>()
@@ -25,9 +25,6 @@ class CreateExerciseActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val staticTitle = intent.extras?.get(STATIC_TITLE).toString()
-
-
-
 
         binding.btnAddExercise.setOnClickListener {
             val title = binding.nameExerciseditText.text.toString()

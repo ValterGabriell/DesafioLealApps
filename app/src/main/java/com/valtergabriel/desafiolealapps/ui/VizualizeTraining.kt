@@ -1,14 +1,15 @@
 package com.valtergabriel.desafiolealapps.ui
 
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.awesomedialog.*
 import com.valtergabriel.desafiolealapps.databinding.ActivityVizualizeTrainingBinding
+import com.valtergabriel.desafiolealapps.dto.DataFromRecycler
 import com.valtergabriel.desafiolealapps.ui.adapter.ExerciseFirebaseAdapter
+import com.valtergabriel.desafiolealapps.util.Constants
 import com.valtergabriel.desafiolealapps.util.Constants.EXERCISE_DESCRIPTION
 import com.valtergabriel.desafiolealapps.util.Constants.EXERCISE_DURATION
 import com.valtergabriel.desafiolealapps.util.Constants.EXERCISE_NAME
@@ -43,9 +44,9 @@ class VizualizeTraining : AppCompatActivity() {
         binding.txtName.text = trainingName
         binding.txtDesc.text = trainingDesc
 
-        binding.imageButton.apply {
+        binding.imgButton.apply {
             setOnClickListener {
-                changeActivity(staticTitle)
+                changeActivityToFinishTrainig(staticTitle)
             }
         }
 
@@ -104,16 +105,20 @@ class VizualizeTraining : AppCompatActivity() {
                             }
                             .onNegative("Editar duração") {
                                 Intent(this@VizualizeTraining, VizualizeExercise::class.java).also {
-                                    it.putExtra(EXERCISE_NAME, title)
-                                    it.putExtra(EXERCISE_NAME_ID, exercise_id)
-                                    it.putExtra(EXERCISE_DURATION, duration)
-                                    it.putExtra(EXERCISE_TYPE, type)
-                                    it.putExtra(STATIC_TITLE, staticTitle)
-                                    it.putExtra(TRAINING_DESCRIPTION, trainingDesc)
-                                    it.putExtra(EXERCISE_DESCRIPTION, obs)
-                                    it.putExtra(TRAINING_NAME, trainingName)
-                                    it.putExtra(TRAINING_NAME_ID, System.currentTimeMillis())
-                                    it.putExtra(WANNA_EDIT, true)
+                                    val dataFromRecycler = DataFromRecycler()
+                                    dataFromRecycler.apply {
+                                        this.title = title
+                                        this.name = exercise_id
+                                        this.duration = duration
+                                        this.description = obs
+                                        this.staticTitle = staticTitle
+                                        this.type = type
+                                        this.trainingName = trainingName
+                                        this.trainingDesc = trainingDesc
+                                        this.trainingId = System.currentTimeMillis()
+                                        this.wannaEdit = false
+                                    }
+                                    it.putExtra(Constants.DATA, dataFromRecycler)
                                     startActivity(it)
                                 }
                             }
@@ -128,7 +133,7 @@ class VizualizeTraining : AppCompatActivity() {
         }
     }
 
-    private fun changeActivity(staticTitle: String) {
+    private fun changeActivityToFinishTrainig(staticTitle: String) {
         Intent(this, FinishTrainingActivity::class.java).also {
             it.putExtra(JUST_WANNA_SEE, true)
             it.putExtra(STATIC_TITLE, staticTitle)

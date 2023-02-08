@@ -39,7 +39,7 @@ class CreateAndEditTrainingActivity : AppCompatActivity() {
         /**
          * Setando variaveis
          */
-        setNameFromEditText()
+        configVariablesVisibilityAndNameFromEditText()
 
         /**
          * Se o usuario quiser editar o treino
@@ -66,20 +66,15 @@ class CreateAndEditTrainingActivity : AppCompatActivity() {
         val trainingName = intent.extras?.get(Constants.STATIC_TITLE).toString()
 
         if (wannaEdit) {
-            binding.txtInputObs.visibility = View.GONE
-            binding.txtExercises.visibility = View.GONE
-            binding.fabCreateTraining.visibility = View.GONE
-
-
-
-            binding.editUpdateName.setText("")
-            binding.editUpdateName.visibility = View.VISIBLE
-            binding.txtHeader.visibility = View.VISIBLE
+            configurationOfViewsVisibility()
 
             binding.btnDelete.apply {
                 visibility = View.VISIBLE
                 setOnClickListener {
-                    trainingViewModel.deleteTraining(trainingName, this@CreateAndEditTrainingActivity)
+                    trainingViewModel.deleteTraining(
+                        trainingName,
+                        this@CreateAndEditTrainingActivity
+                    )
                 }
             }
 
@@ -87,13 +82,27 @@ class CreateAndEditTrainingActivity : AppCompatActivity() {
                 visibility = View.VISIBLE
                 setOnClickListener {
                     val newTrainingName = binding.editUpdateName.text.toString()
-                    trainingViewModel.updateTrainingData(trainingName, newTrainingName, this@CreateAndEditTrainingActivity)
+                    trainingViewModel.updateTrainingData(
+                        trainingName,
+                        newTrainingName,
+                        this@CreateAndEditTrainingActivity
+                    )
                 }
             }
         }
     }
 
-    private fun setNameFromEditText() {
+    private fun configurationOfViewsVisibility(){
+        binding.txtInputObs.visibility = View.GONE
+        binding.txtExercises.visibility = View.GONE
+        binding.fabCreateTraining.visibility = View.GONE
+
+        binding.editUpdateName.setText("")
+        binding.editUpdateName.visibility = View.VISIBLE
+        binding.txtHeader.visibility = View.VISIBLE
+    }
+
+    private fun configVariablesVisibilityAndNameFromEditText() {
 
         /**
          * Quando o nome do treino é setado e o usuario avança para a tela de adicionar exercicios,
@@ -104,21 +113,12 @@ class CreateAndEditTrainingActivity : AppCompatActivity() {
         intent.extras?.get(Constants.TRAINING_NAME_FROM_LAST_EXERCISES_ADDED).toString()
             .also { trainingName ->
                 if (trainingName != EXEMPLE) {
-                    binding.txtInputObs.visibility = View.GONE
-                    binding.txtInputName.visibility = View.GONE
-                    binding.btnFirstAddTraining.visibility = View.GONE
-                    binding.txtHeader.visibility = View.GONE
+                    changeViewsVisibility()
 
-                    binding.recyclerViewAddExercisesActivity.visibility = View.VISIBLE
-                    binding.txtExercises.visibility = View.VISIBLE
-                    binding.fabCreateTraining.visibility = View.VISIBLE
-
-
+                    binding.nameTrainingeditText.setText(trainingName)
 
                     trainingViewModel.getExercisesFromFirebase(trainingName).also {
-                        binding.nameTrainingeditText.apply {
-                            setText(trainingName)
-                        }
+
                         trainingViewModel.listExercises.observe(this) { exercises ->
                             adapter = ExerciseFirebaseAdapter(exercises)
                             binding.recyclerViewAddExercisesActivity.adapter = adapter
@@ -144,7 +144,7 @@ class CreateAndEditTrainingActivity : AppCompatActivity() {
         val trainingName = binding.nameTrainingeditText.text.toString()
         val trainingDesc = binding.obsTrainingEditText.text.toString()
 
-        if (!Validation.isFilledField(trainingName)) {
+        if (Validation.isFilledField(trainingName)) {
             Intent(this, AddNewExerciseActivity::class.java).also {
                 it.putExtra(Constants.TRAINING_NAME, trainingName)
                 it.putExtra(Constants.TRAINING_DESCRIPTION, trainingDesc)
@@ -155,5 +155,16 @@ class CreateAndEditTrainingActivity : AppCompatActivity() {
             Toast.makeText(this, "Defina um nome para seu treino antes", Toast.LENGTH_SHORT)
                 .show()
         }
+    }
+
+    private fun changeViewsVisibility() {
+        binding.txtInputObs.visibility = View.GONE
+        binding.txtInputName.visibility = View.GONE
+        binding.btnFirstAddTraining.visibility = View.GONE
+        binding.txtHeader.visibility = View.GONE
+
+        binding.recyclerViewAddExercisesActivity.visibility = View.VISIBLE
+        binding.txtExercises.visibility = View.VISIBLE
+        binding.fabCreateTraining.visibility = View.VISIBLE
     }
 }

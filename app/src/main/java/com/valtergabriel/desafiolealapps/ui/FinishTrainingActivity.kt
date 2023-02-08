@@ -1,8 +1,6 @@
 package com.valtergabriel.desafiolealapps.ui
 
 import android.Manifest
-import android.content.Intent
-import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -88,7 +86,7 @@ class FinishTrainingActivity : AppCompatActivity(), EasyPermissions.PermissionCa
          * Salvando as fotos no storage
          */
         binding.btnSaveImages.setOnClickListener {
-            binding.progressBar4.visibility = View.VISIBLE
+            binding.myProgressBar.visibility = View.VISIBLE
             it.visibility = View.GONE
             trainingViewModel.finishTraining(trainingName, uriBefore!!, uriAfter!!, this)
         }

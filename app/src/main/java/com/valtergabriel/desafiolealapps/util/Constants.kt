@@ -26,6 +26,7 @@ object Constants {
     const val TRAINING_DESCRIPTION_FROM_FEED_SCREEN = "traning_desc_from_feed"
     const val TRAINING_STATIC_NAME_FROM_FEED_SCREEN = "traning_static_name_from_feed"
     const val JUST_WANNA_SEE = "is_just_see"
+    const val DATA = "DATA"
 
 
 }

@@ -23,14 +23,14 @@ class LoginActivity : AppCompatActivity() {
         val login = binding.btnSign
         val loading = binding.loading
 
-        login.setOnClickListener {
+        login.setOnClickListener {btnLogin ->
             val username = binding.username.text.toString()
             val password = binding.password.text.toString()
-            if (!Validation.isFilledField(username)
-                && !Validation.isFilledField(password)
+            if (Validation.isFilledField(username)
+                && Validation.isFilledField(password)
                 && Validation.isValidEmail(username)
             ) {
-                it.visibility = View.GONE
+                btnLogin.visibility = View.GONE
                 loading.visibility = View.VISIBLE
                 userViewModel.signInUser(username, password, this, login, loading)
             } else {

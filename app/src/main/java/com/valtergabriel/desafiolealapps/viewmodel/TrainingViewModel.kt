@@ -17,9 +17,9 @@ class TrainingViewModel(private val trainingExerciseRepository: TrainingExercise
     val listTraining = MutableLiveData<ArrayList<Training>>()
 
 
-    fun createNewTrainingOnFirebase(training: Training, context: Context) {
+    fun addExerciseFromTrainingAndCreateTrainingOnFirebaseIfNotExists(training: Training, context: Context) {
         viewModelScope.launch {
-            trainingExerciseRepository.createNewTraining(training, context)
+            trainingExerciseRepository.addExerciseFromTrainingAndCreateTrainingOnFirebaseIfNotExists(training, context)
         }
     }
 

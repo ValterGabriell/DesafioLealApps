@@ -122,7 +122,7 @@
         app:layout_constraintGuide_percent="0.01" />
 
     <ProgressBar
-        android:id="@+id/progressBar4"
+        android:id="@+id/my_progress_bar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
