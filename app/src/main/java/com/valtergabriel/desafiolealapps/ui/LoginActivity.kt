@@ -3,7 +3,6 @@ package com.valtergabriel.desafiolealapps.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import com.valtergabriel.desafiolealapps.databinding.ActivityLoginBinding
 import com.valtergabriel.desafiolealapps.util.Validation
@@ -27,8 +26,8 @@ class LoginActivity : AppCompatActivity() {
         login.setOnClickListener {
             val username = binding.username.text.toString()
             val password = binding.password.text.toString()
-            if (!Validation.isEmptyField(username)
-                && !Validation.isEmptyField(password)
+            if (!Validation.isFilledField(username)
+                && !Validation.isFilledField(password)
                 && Validation.isValidEmail(username)
             ) {
                 it.visibility = View.GONE

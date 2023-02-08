@@ -34,9 +34,9 @@ class CreateExerciseActivity : AppCompatActivity() {
             val duration = binding.editTextExerciseDuration.text.toString()
             val description = binding.obsExerciseEditText.text.toString()
 
-            if (!Validation.isEmptyField(title)
-                && !Validation.isEmptyField(duration)
-                && !Validation.isEmptyField(description)
+            if (Validation.isFilledField(title)
+                && Validation.isFilledField(duration)
+                && Validation.isFilledField(description)
             ) {
                 binding.progressBar3.visibility = View.VISIBLE
                 binding.btnAddExercise.visibility = View.GONE

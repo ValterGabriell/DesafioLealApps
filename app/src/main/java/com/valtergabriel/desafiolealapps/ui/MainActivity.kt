@@ -19,20 +19,26 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         FirebaseApp.initializeApp(this)
 
-
+        val signUpBtn = binding.btnSignUp
+        val signInBtn = binding.btnSignIn
+        /**
+         * Verificar se existe algum usuário logado para transferir de activity caso nao seja nulo.
+         */
         if (Firebase.getAuth().currentUser != null){
             Intent(this, FeedActivity::class.java).also {
                 startActivity(it)
             }
         }
 
-        binding.btnSignUp.setOnClickListener {
+
+
+        signUpBtn.setOnClickListener {
             Intent(this, FormActivity::class.java).also {
                 startActivity(it)
             }
         }
 
-        binding.btnSignIn.setOnClickListener {
+        signInBtn.setOnClickListener {
             Intent(this, LoginActivity::class.java).also {
                 startActivity(it)
             }

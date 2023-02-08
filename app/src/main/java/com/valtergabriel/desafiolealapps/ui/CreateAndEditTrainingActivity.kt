@@ -144,7 +144,7 @@ class CreateAndEditTrainingActivity : AppCompatActivity() {
         val trainingName = binding.nameTrainingeditText.text.toString()
         val trainingDesc = binding.obsTrainingEditText.text.toString()
 
-        if (!Validation.isEmptyField(trainingName)) {
+        if (!Validation.isFilledField(trainingName)) {
             Intent(this, AddNewExerciseActivity::class.java).also {
                 it.putExtra(Constants.TRAINING_NAME, trainingName)
                 it.putExtra(Constants.TRAINING_DESCRIPTION, trainingDesc)

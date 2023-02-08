@@ -6,8 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.valtergabriel.desafiolealapps.databinding.ActivityFormBinding
 import com.valtergabriel.desafiolealapps.dto.User
-import com.valtergabriel.desafiolealapps.util.Firebase.getAuth
-import com.valtergabriel.desafiolealapps.util.Validation.isEmptyField
+import com.valtergabriel.desafiolealapps.util.Validation.isFilledField
 import com.valtergabriel.desafiolealapps.util.Validation.isValidEmail
 import com.valtergabriel.desafiolealapps.viewmodel.UserViewModel
 import org.koin.android.ext.android.inject
@@ -33,12 +32,12 @@ class FormActivity : AppCompatActivity() {
             val weight = binding.weightEditTextActivityForm.text.toString()
             val expectedWeight = binding.expetedWeightEditTextActivityForm.text.toString()
 
-            if (!isEmptyField(email)
-                && !isEmptyField(password)
-                && !isEmptyField(age)
-                && !isEmptyField(height)
-                && !isEmptyField(weight)
-                && !isEmptyField(expectedWeight)
+            if (isFilledField(email)
+                && isFilledField(password)
+                && isFilledField(age)
+                && isFilledField(height)
+                && isFilledField(weight)
+                && isFilledField(expectedWeight)
                 && isValidEmail(email)
             ) {
                 buttonSignUp.visibility = View.GONE
@@ -66,7 +65,8 @@ class FormActivity : AppCompatActivity() {
             password,
             age,
             height,
-            weight, expectedWeight
+            weight,
+            expectedWeight
         )
         userViewModel.signUpUser(user, this)
     }
