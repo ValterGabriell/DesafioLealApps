@@ -128,10 +128,10 @@ class VizualizeTraining : AppCompatActivity() {
         }
     }
 
-    private fun changeActivity(trainingName: String) {
+    private fun changeActivity(staticTitle: String) {
         Intent(this, FinishTrainingActivity::class.java).also {
             it.putExtra(JUST_WANNA_SEE, true)
-            it.putExtra(TRAINING_NAME, trainingName)
+            it.putExtra(STATIC_TITLE, staticTitle)
             startActivity(it)
         }
     }

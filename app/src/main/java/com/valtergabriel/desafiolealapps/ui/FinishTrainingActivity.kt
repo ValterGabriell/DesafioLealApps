@@ -29,7 +29,7 @@ class FinishTrainingActivity : AppCompatActivity(), EasyPermissions.PermissionCa
         binding = ActivityFinishTrainingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val trainingName = intent.extras?.get(Constants.TRAINING_NAME).toString()
+        val trainingName = intent.extras?.get(Constants.STATIC_TITLE).toString()
         val isJustSee = intent.extras?.get(Constants.JUST_WANNA_SEE) as Boolean
 
         if (isJustSee) {
